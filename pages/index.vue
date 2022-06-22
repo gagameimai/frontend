@@ -1,18 +1,65 @@
 <template>
   <section class="overflow-hidden">
+    <!-- vue agile -->
+    <VueAgile />
+    <!-- search -->
+    <div class="container mx-auto my-10 p-3 border-2 border-yellow-300">
+      <div class="md:grid grid-cols-11 gap-8">
+        <div class="col-span-3 mb-3 md:mb-0">
+          <select
+            v-model="blandInputValue"
+            @change="blandChange"
+            class="w-full h-12 p-3 text-black border rounded-md bg-white"
+          >
+            <option selected disabled>選擇汽車品牌</option>
+            <option
+              v-for="(bland, idx) in blands"
+              :key="idx"
+              class="capitalize"
+              >{{ bland }}</option
+            >
+          </select>
+        </div>
+        <div class="col-span-3 mb-3 md:mb-0">
+          <select
+            v-model="typeInputValue"
+            @change="typeChange"
+            :disabled="typeSelect"
+            class="w-full h-12 p-3 text-black border rounded-md bg-white"
+          >
+            <option selected disabled>選擇車款</option>
+            <option v-for="(type, idx) in types" :key="idx">{{ type }}</option>
+            <option value="all">所有車款</option>
+          </select>
+        </div>
+        <div class="col-span-3 mb-3 md:mb-0">
+          <select
+            v-model="yearInputValue"
+            :disabled="yearSelect"
+            class="w-full h-12 p-3 text-black border rounded-md bg-white"
+          >
+            <option selected disabled>選擇年份</option>
+            <option v-for="(year, idx) in years" :key="idx">{{ year }}</option>
+            <option value="all">所有年份</option>
+          </select>
+        </div>
+        <div class="col-span-2">
+          <button
+            @click="searchData"
+            class="w-full bg-yellow-400 hover:bg-yellow-500 transition-all duration-300 p-3 rounded-md"
+          >
+            搜尋
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- banner -->
-    <div class="banner">
+    <!-- <div class="banner">
       <div
         class="container mx-auto lg:grid grid-cols-6 gap-10 text-white px-5 py-16 md:py-20 lg:py-40"
       >
         <div class="col-span-4">
-          <div>
-            <!-- <img
-              class="w-full"
-              src="@/assets/img/Home/bannerProduct.png"
-              alt=""
-            /> -->
-          </div>
+          <div></div>
         </div>
         <div class="col-span-2">
           <div class="py-10">
@@ -76,7 +123,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- banner end-->
     <!-- product -->
     <div id="productList">

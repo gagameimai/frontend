@@ -32,7 +32,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {src:"~/plugins/aos.js", mode:"client"}
+    { src:"~/plugins/aos.js", mode:"client" },
+    "~/plugins/vueAgile.js"
+    // { src: '~/plugins/vueAgile.js', mode:"client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,7 +56,9 @@ export default {
   modules: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['vue-agile']
+  },
   transition: {
     name: "page",
     mode: "out-in"

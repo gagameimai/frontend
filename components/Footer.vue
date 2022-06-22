@@ -16,14 +16,20 @@
               <div>
                 <a
                   class="text-xl icons"
-                  href="https://www.facebook.com/MM.MEIMAI"
+                  href="https://www.facebook.com/MEIMAI.MM"
                   target="_bland"
                   ><fa class="mr-4 fone_size_1" :icon="['fab', 'facebook']"
                 /></a>
-                <a class="text-xl icons" href="#"
-                  ><fa class="mr-4 fone_size_1" :icon="['fab', 'line']"
+                <a
+                  class="text-xl icons"
+                  href="https://www.instagram.com/mm_meimai/"
+                  target="_bland"
+                  ><fa class="mr-4 fone_size_1" :icon="['fab', 'instagram']"
                 /></a>
-                <a class="text-xl icons" href="#"
+                <a
+                  class="text-xl icons"
+                  href="https://www.youtube.com/channel/UCmOgNguLmmeNdXu_hgVPBSw"
+                  target="_bland"
                   ><fa class="mr-4 fone_size_1" :icon="['fab', 'youtube']"
                 /></a>
               </div>
