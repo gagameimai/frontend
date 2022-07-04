@@ -4290,8 +4290,8 @@ export default [
     {
         id:'',
         bland:'NISSAN',
-        model:['X-trail'],
-        type:'X-trail',
+        model:['X-Trail'],
+        type:'X-Trail',
         year:[2014,2015,2016,2017,2018,2019,2020],
         range:'2014~2020',
         size:'10 吋',
@@ -4306,10 +4306,10 @@ export default [
     {
         id:'',
         bland:'NISSAN',
-        model:['X-trail'],
-        type:'X-trail',
-        year:[2014,2015,2016,2017,2018,2019,2020,2021,2022],
-        range:'2014~',
+        model:['X-Trail'],
+        type:'X-Trail',
+        year:[2020,2021,2022],
+        range:'2020~',
         size:'10 吋',
         img:'NISSAN_X-trail_14-_10inch',
         attachment:{
