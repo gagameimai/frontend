@@ -1102,38 +1102,38 @@ export default [
             video: ''
         }
     },
-    {
-        id:'',
-        bland:'FORD',
-        model:['Tourneo'],
-        type:'Tourneo Custom 旅行家 (低配)',
-        year:[2013,2014,2015,2016,2017,2018,2019,2020],
-        range:'2013~2020',
-        size:'9 吋',
-        img:'FORD_Tourneo_Custom_low_13-20',
-        attachment:{
-            title: '產品說明',
-            desc: '',
-            imgs: ['FORD_Tourneo_Custom_low_13-20_install'],
-            video: ''
-        }
-    },
-    {
-        id:'',
-        bland:'FORD',
-        model:['Tourneo'],
-        type:'Tourneo Custom 旅行家 (高配)',
-        year:[2013,2014,2015,2016,2017,2018,2019,2020],
-        range:'2013~2020',
-        size:'9 吋',
-        img:'FORD_Tourneo_Custom_high_13-20',
-        attachment:{
-            title: '產品說明',
-            desc: '',
-            imgs: [],
-            video: ''
-        }
-    },
+    // {
+    //     id:'',
+    //     bland:'FORD',
+    //     model:['Tourneo'],
+    //     type:'Tourneo Custom 旅行家 (低配)',
+    //     year:[2013,2014,2015,2016,2017,2018,2019,2020],
+    //     range:'2013~2020',
+    //     size:'9 吋',
+    //     img:'FORD_Tourneo_Custom_low_13-20',
+    //     attachment:{
+    //         title: '產品說明',
+    //         desc: '',
+    //         imgs: ['FORD_Tourneo_Custom_low_13-20_install'],
+    //         video: ''
+    //     }
+    // },
+    // {
+    //     id:'',
+    //     bland:'FORD',
+    //     model:['Tourneo'],
+    //     type:'Tourneo Custom 旅行家 (高配)',
+    //     year:[2013,2014,2015,2016,2017,2018,2019,2020],
+    //     range:'2013~2020',
+    //     size:'9 吋',
+    //     img:'FORD_Tourneo_Custom_high_13-20',
+    //     attachment:{
+    //         title: '產品說明',
+    //         desc: '',
+    //         imgs: [],
+    //         video: ''
+    //     }
+    // },
     {
         id:'',
         bland:'FORD',
