@@ -4,6 +4,15 @@ export default[
         desc:['*安卓版本7以下,請使用檔名尾數662版','*安卓版本7、8、9,請使用檔名尾數616版','*安卓版本10以上,請使用檔名尾數670、675版'],
         version: [
             {
+                name: '導航王主程式 680版',
+                link: 'https://drive.google.com/file/d/1l-bcy2YxLDDkKafyJTYFhNC2ocbaThcz/view?usp=sharing'
+            },{
+                name: '導航王主程式 679版',
+                link: 'https://drive.google.com/file/d/1SqwUdEFPPdfL4pN2I7E6zfvsZziKLqmx/view?usp=sharing'
+            },{
+                name: '導航王主程式 677版',
+                link: 'https://drive.google.com/file/d/14jPBvPXDP_e90eTWGF-YL1gfzY5bTZ9A/view?usp=sharing'
+            },{
                 name: '導航王主程式 675版',
                 link: 'https://drive.google.com/file/d/1_PIoDSCHdBtmFCya5-ngC3O_M48CM7WE/view?usp=sharing'
             },{
@@ -49,6 +58,9 @@ export default[
             {
                 name: 'ME-66出廠APK(統整壓縮檔)',
                 link: 'https://drive.google.com/drive/folders/1D7WDAGS27ojYsFhQF0QRliOcIqMKk-wc?usp=sharing'
+            },{
+                name: 'APKPure',
+                link: 'https://drive.google.com/drive/folders/1CtDGZ_CzmFiuCIhk5gHIIGHXVCruZ5Rw?usp=sharing'
             },{
                 name: 'ME-66說明書PDF檔',
                 link: 'https://drive.google.com/drive/folders/1wHg71yjupbPi0QE87ZFBWHXUOfHh7Gt_?usp=sharing'
@@ -99,15 +111,21 @@ export default[
         isShow: false
     },
     {
-        title: 'ME-82T出廠apk',
+        title: 'ME-82出廠apk',
         desc:[],
         version: [
             {
                 name: 'ME-82T出廠APK(統整壓縮檔)',
                 link: 'https://drive.google.com/drive/folders/15JHiVzqHHspj3ve1DxwQ2IdpOL74A63H?usp=sharing'
             },{
+                name: 'APKPure',
+                link: 'https://drive.google.com/drive/folders/1CtDGZ_CzmFiuCIhk5gHIIGHXVCruZ5Rw?usp=sharing'
+            },{
                 name: 'ME-82T說明書PDF檔',
                 link: 'https://drive.google.com/drive/folders/1esrHI9ilY8Sr5WxOKEVrYoMKf-mj_qB9?usp=sharing'
+            },{
+                name: 'ZLINK',
+                link: 'https://drive.google.com/drive/folders/13iE9edFZm2vJHw0e-628i7becVHEZJBK?usp=sharing'
             },{
                 name: 'TLINK (CARPLAY)',
                 link: 'https://drive.google.com/drive/folders/100oBr3mp4jHw3RaufdrVQ1bNiaQ264Vd?usp=sharing'
@@ -155,15 +173,21 @@ export default[
         isShow: false
     },
     {
-        title: 'ME-88T出廠apk',
+        title: 'ME-88出廠apk',
         desc:[],
         version: [
             {
                 name: 'ME-88T出廠APK(統整壓縮檔)',
                 link: 'https://drive.google.com/drive/folders/1Im6hB1fedS9ALoqaqHz2-PkmWFycmGqA?usp=sharing'
             },{
+                name: 'APKPure',
+                link: 'https://drive.google.com/drive/folders/1CtDGZ_CzmFiuCIhk5gHIIGHXVCruZ5Rw?usp=sharing'
+            },{
                 name: 'ME-88T說明書PDF檔',
                 link: 'https://drive.google.com/drive/folders/1Dl7fsDUS91S31ugeOnsSFcfJqwlMWTAn?usp=sharing'
+            },{
+                name: 'ZLINK',
+                link: 'https://drive.google.com/drive/folders/13iE9edFZm2vJHw0e-628i7becVHEZJBK?usp=sharing'
             },{
                 name: 'TLINK (CARPLAY)',
                 link: 'https://drive.google.com/drive/folders/100oBr3mp4jHw3RaufdrVQ1bNiaQ264Vd?usp=sharing'
@@ -218,6 +242,9 @@ export default[
                 name: 'ME-99出廠APK(統整壓縮檔)',
                 link: 'https://drive.google.com/drive/folders/1zlRGzBX77uc2tYviuPTWUS0AWz22HO-A?usp=sharing'
             },{
+                name: 'APKPure',
+                link: 'https://drive.google.com/drive/folders/1CtDGZ_CzmFiuCIhk5gHIIGHXVCruZ5Rw?usp=sharing'
+            },{
                 name: 'ME-99說明書PDF檔',
                 link: 'https://drive.google.com/drive/folders/1aKspSdigpTL-sdjn-TzOcNqDyeh9ZujQ?usp=sharing'
             },{
@@ -271,6 +298,12 @@ export default[
         desc:[],
         version: [
             {
+                name: '20220412',
+                link: 'https://drive.google.com/file/d/1mWduz-F0BPdpmlEHQUtjTuv6442EaoAp/view?usp=sharing'
+            },{
+                name: '20220309',
+                link: 'https://drive.google.com/file/d/1NER3FE-fyfJSBvDihtimwpI6O0bDke-w/view?usp=sharing'
+            },{
                 name: '20210825',
                 link: 'https://drive.google.com/file/d/1V4XzRw_8ToTuHJUTwPPvpviDc-4BoUtj/view?usp=sharing'
             },{
@@ -297,6 +330,12 @@ export default[
         desc:[],
         version: [
             {
+                name: '20220726',
+                link: 'https://drive.google.com/file/d/1KyYOwrSizb2qT3JK9dsDjPpIesnlZcP-/view?usp=sharing'
+            },{
+                name: '20220721',
+                link: 'https://drive.google.com/file/d/1rT48C2eBuvwo5Ybx26MpwJlzhVN-j77g/view?usp=sharing'
+            },{
                 name: '20220516',
                 link: 'https://drive.google.com/file/d/1Kl_UHq0fmvxz_BUXKJgfwnijNCWObNTI/view?usp=sharing'
             },{
@@ -369,6 +408,12 @@ export default[
         desc:[],
         version: [
             {
+                name: '20220726',
+                link: 'https://drive.google.com/file/d/1KyYOwrSizb2qT3JK9dsDjPpIesnlZcP-/view?usp=sharing'
+            },{
+                name: '20220721',
+                link: 'https://drive.google.com/file/d/1rT48C2eBuvwo5Ybx26MpwJlzhVN-j77g/view?usp=sharing'
+            },{
                 name: '20220516',
                 link: 'https://drive.google.com/file/d/1Kl_UHq0fmvxz_BUXKJgfwnijNCWObNTI/view?usp=sharing'
             },{
@@ -491,6 +536,26 @@ export default[
             },{
                 name: '完全格式化檔',
                 link: 'https://drive.google.com/file/d/1ffxbu0c2vF0R6QyfkzLPXWIndUmza7XH/view?usp=sharing'
+            }
+        ],
+        isShow: false
+    },
+    {
+        title: 'MM-99K(2K HD)各版本UI',
+        desc:[],
+        version: [
+            {
+                name: '20220715',
+                link: 'https://drive.google.com/file/d/1-FnTWjFFzG2tN8HW_WRbx0J7_6W84I4w/view?usp=sharing'
+            },{
+                name: '20220701',
+                link: 'https://drive.google.com/file/d/1Qf8zH0KI6e5tjNmGfoWRgb4I7XbZ3fXx/view?usp=sharing'
+            },{
+                name: '20220609',
+                link: 'https://drive.google.com/file/d/1XbhKI_4GNZAyDBGhXzJnwnGCklvxtLRa/view?usp=sharing'
+            },{
+                name: '20211227',
+                link: 'https://drive.google.com/file/d/1SlbOZY5IYtQzRb0-NmNrIleFQA1UrJfg/view?usp=sharing'
             }
         ],
         isShow: false
