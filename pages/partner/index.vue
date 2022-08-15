@@ -11,14 +11,11 @@
           </div>
           <div class="col-span-4">
             <select
-              v-model="positionValue"
-              @change="filterData"
-              class="border px-3 py-2 mb-5 w-full lg:w-2/5"
-            >
-              <option>全區域</option>
-              <option v-for="(p, index) in positions" :key="index">{{
-                p
-              }}</option>
+              v-model="county"
+              @change="getPartner"
+              class="border px-3 py-2 mb-5 w-full lg:w-2/5">
+              <option value="">全區域</option>
+              <option v-for="(county, index) in counties" :key="index" :value="index">{{ county }}</option>
             </select>
             <!-- lists -->
             <!-- data-aos="fade-left"
@@ -27,26 +24,23 @@
               data-aos-once="true"
               data-aos-anchor-placement="top-bottom" -->
             <div
-              v-for="(p, idx) in partnerResult"
+              v-for="(partner, idx) in partners"
               :key="idx"
-              class="border shadow-md p-5 mb-5"
-            >
-              <h4 class="text-lg font-semibold mb-3">{{ p.name }}</h4>
+              class="border shadow-md p-5 mb-5">
+              <h4 class="text-lg font-semibold mb-3">{{ partner.name }}</h4>
               <p class="mb-2">
                 <fa
                   class="text-yellow-400 mr-3"
-                  :icon="['fas', 'phone-alt']"
-                />{{ p.tel }}
+                  :icon="['fas', 'phone-alt']"/>{{ partner.tel }}
               </p>
               <a
-                :href="`https://www.google.com.tw/maps/place/${p.addr}`"
-                target="_blank"
-              >
+                :href="`https://www.google.com.tw/maps/place/${partner.address}`"
+                target="_blank">
                 <p>
                   <fa
                     class="text-yellow-400 mr-3"
-                    :icon="['fas', 'map-marker-alt']"
-                  />{{ p.addr }}
+                    :icon="['fas', 'map-marker-alt']"/>
+                    {{ partner.address }}
                 </p>
               </a>
             </div>
@@ -58,36 +52,33 @@
 </template>
 
 <script>
-import partner from "~/static/partner.js";
 export default {
   name: "partner",
   data() {
     return {
-      partner,
-      partnerResult: partner,
-      positions: [],
-      positionValue: "全區域"
+      partners: [],
+      counties: [],
+      county: ''
     };
   },
   mounted() {
-    // 收集 option value
-    let tempArr = [];
-    partner.forEach(item => {
-      tempArr.push(item.position);
-    });
-    console.log(tempArr);
-    this.positions = [...new Set(tempArr)];
-    console.log(this.positions);
+    this.getPartner();
   },
   methods: {
-    filterData() {
-      if (this.positionValue == "全區域") {
-        this.partnerResult = this.partner;
-      } else {
-        this.partnerResult = this.partner.filter(
-          item => item.position === this.positionValue
-        );
-      }
+    getPartner() {
+      let params = {
+        county: this.county
+      };
+
+      this.$http.get('https://admin.meimai.com.tw/api/partner', {params}).then((response) => {
+        let result = response.data.result;
+        if (result) {
+          if (this.counties.length == 0) { // 沒有值才需要重新assign
+            this.counties = result.county;
+          }
+          this.partners = result.partner
+        }
+      })
     }
   }
 };
@@ -100,8 +91,6 @@ export default {
 @media (min-width: 640px) {
 }
 @media (min-width: 768px) {
-  .banner {
-  }
 }
 @media (min-width: 1024px) {
 }
