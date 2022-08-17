@@ -8,12 +8,10 @@
 </template>
 
 <script>
-import qa from "~/static/qa.js";
 export default {
   name: "question",
   data() {
     return {
-      qa,
       question: ''
     };
   },
