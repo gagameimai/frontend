@@ -269,37 +269,35 @@
         <h2 class="uppercase text-2xl md:text-4xl font-extrabold mb-5">
           合作經銷
         </h2>
-        <select
-          v-model="positionValue"
-          @change="filterPostiton"
-          class="border px-3 py-2 mb-5 w-full lg:w-1/3"
-        >
-          <option v-for="(p, index) in positions" :key="index">{{ p }}</option>
+        <select v-model="county"
+                @change="getPartner"
+                class="border px-3 py-2 mb-5 w-full lg:w-1/3">
+          <option value="">全區域</option>
+          <option v-for="(county, index) in counties" :key="index" :value="index">{{ county }}</option>
         </select>
         <div class="md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
-            v-for="(i, idx) in partnerResult"
-            :key="idx"
-            class="col-span-1"
-            data-aos="fade-up"
-            data-aos-duration="500"
-            data-aos-delay="300"
-            data-aos-once="true"
-            data-aos-anchor-placement="bottom-bottom"
+          <div v-for="(partner, index) in partners"
+              :key="index"
+              class="col-span-1"
+              data-aos="fade-up"
+              data-aos-duration="500"
+              data-aos-delay="300"
+              data-aos-once="true"
+              data-aos-anchor-placement="bottom-bottom"
           >
             <div class="min-h-full border shadow-md p-5 mb-5">
-              <h4 class="text-lg font-semibold mb-3">{{ i.name }}</h4>
+              <h4 class="text-lg font-semibold mb-3">{{ partner.name }}</h4>
               <p class="mb-2">
                 <fa
                   class="text-yellow-400 mr-3"
                   :icon="['fas', 'phone-alt']"
-                />{{ i.tel }}
+                />{{ partner.tel }}
               </p>
               <p>
                 <fa
                   class="text-yellow-400 mr-3"
                   :icon="['fas', 'map-marker-alt']"
-                />{{ i.addr }}
+                />{{ partner.address }}
               </p>
             </div>
           </div>
@@ -312,13 +310,11 @@
 
 <script>
 import carFrame from "~/static/carFrame.js";
-import partner from "~/static/partner.js";
 
 export default {
   name: "home",
   data() {
     return {
-      partner,
       carFrame,
       blands: [],
       types: [],
@@ -329,9 +325,9 @@ export default {
       typeSelect: true,
       yearSelect: true,
       filterData: [],
-      partnerResult: partner,
-      positions: [],
-      positionValue: "台北市"
+      partners: [],
+      counties: [],
+      county: '',
     };
   },
   mounted() {
@@ -339,13 +335,24 @@ export default {
     const newBlands = this.carFrame.map(item => item.bland);
     this.blands = [...new Set(newBlands)];
     // 收集 option value
-    let tempArr = [];
-    partner.forEach(item => {
-      tempArr.push(item.position);
-    });
-    this.positions = [...new Set(tempArr)];
+    this.getPartner();
   },
   methods: {
+    getPartner() {
+      let params = {
+        county: this.county
+      };
+
+      this.$http.get('https://admin.meimai.com.tw/api/partner', {params}).then((response) => {
+        let result = response.data.result;
+        if (result) {
+          if (this.counties.length == 0) { // 沒有值才需要重新assign
+            this.counties = result.county;
+          }
+          this.partners = result.partner
+        }
+      })
+    },
     blandChange() {
       // default setting
       this.typeInputValue = "選擇車款";
@@ -401,11 +408,6 @@ export default {
       localStorage.setItem("bland", this.blandInputValue);
       localStorage.setItem("model", this.typeInputValue);
       localStorage.setItem("year", this.yearInputValue);
-    },
-    filterPostiton() {
-      this.partnerResult = this.partner.filter(
-        item => item.position === this.positionValue
-      );
     }
   }
 };

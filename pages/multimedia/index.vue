@@ -12,15 +12,15 @@
     <!-- -->
     <div class="container mx-auto px-5 py-20">
       <div
-        v-for="(i, idx) in multimedias"
-        :key="idx"
+        v-for="(multiMedias, index) in multiMediasList"
+        :key="index"
         class="lg:grid grid-cols-8 gap-8 mb-10"
       >
         <div class="col-span-3 py-0 lg:py-16">
           <div>
             <img
-              :src="require(`@/assets/img/multimedia/${i.img}`)"
-              :alt="i.name"
+              :src="multiMedias.img"
+              :alt="multiMedias.name"
               class="w-full"
             />
           </div>
@@ -37,46 +37,46 @@
               <fa
                 class="text-yellow-400 mr-3"
                 :icon="['fas', 'arrow-alt-circle-right']"
-              />{{ i.name }}
+              />{{ multiMedias.name }}
             </h2>
-            <p class="text-xl mb-8">{{ i.title }}</p>
+            <p class="text-xl mb-8">{{ multiMedias.memo }}</p>
             <p class="text-base mb-5">
               <span
-                v-for="(j, id) in i.size"
-                :key="id"
+                v-for="(size, key) in multiMedias.size.split(';')"
+                :key="key"
                 class="border rounded border-yellow-400 px-3 py-1 mr-3"
-                >{{ j }}</span
+                >{{ size }}吋</span
               >
             </p>
             <p class="text-base mb-3">
               <fa
                 class="text-yellow-400 mr-3"
                 :icon="['fas', 'check']"
-              />硬體：{{ i.core }}
+              />硬體：{{ multiMedias.hard_drive }}
             </p>
             <p class="text-base mb-3">
               <fa
                 class="text-yellow-400 mr-3"
                 :icon="['fas', 'check']"
-              />記憶體：{{ i.memory }}
+              />記憶體：{{ multiMedias.ram }}
             </p>
             <p class="text-base mb-3">
               <fa
                 class="text-yellow-400 mr-3"
                 :icon="['fas', 'check']"
-              />解析度：{{ i.dpi }}
+              />解析度：{{ multiMedias.resolution }}
             </p>
             <p class="text-base mb-8">
               <fa
                 class="text-yellow-400 mr-3"
                 :icon="['fas', 'check']"
-              />建議售價：{{ i.price }}
+              />建議售價：{{ multiMedias.price }}
             </p>
             <nuxt-link
               :to="{
                 name: 'multimediaDetail-id',
                 query: {
-                  id: i.id
+                  id: multiMedias.id
                 }
               }"
               class="block w-full md:w-40 text-center text-white bg-yellow-400 hover:bg-yellow-500 transition-all duration-300 p-3"
@@ -91,8 +91,8 @@
       <h2 class="text-center text-3xl font-semibold mb-8">規格比較</h2>
       <div class="lg:grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
         <div
-          v-for="(i, idx) in multimedias"
-          :key="idx"
+          v-for="(multiMedias, index) in multiMediasList"
+          :key="index"
           data-aos="fade-up"
           data-aos-duration="500"
           data-aos-delay="300"
@@ -101,51 +101,51 @@
           class="col-span-1 py-5"
         >
           <img
-            :src="require(`@/assets/img/multimedia/${i.img}`)"
-            :alt="i.name"
+            :src="multiMedias.img"
+            :alt="multiMedias.name"
           />
           <h2 class="text-lg font-medium mb-5">
             <fa
               class="text-yellow-400 mr-3"
               :icon="['fas', 'arrow-alt-circle-right']"
-            />{{ i.name }}
+            />{{ multiMedias.name }}
           </h2>
           <hr class="mb-5" />
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />硬體：{{ i.core }}
+            />硬體：{{ multiMedias.hard_drive }}
           </p>
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />記憶體：{{ i.memory }}
+            />記憶體：{{ multiMedias.ram }}
           </p>
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />解析度：{{ i.dpi }}
+            />解析度：{{ multiMedias.resolution }}
+          </p>
+          <!-- <p class="px-2 py-1">
+            <fa
+              class="text-xs text-yellow-400 mr-3"
+              :icon="['fas', 'dot-circle']"
+            />系統：{{ multiMedias.system }}
           </p>
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />系統：{{ i.system }}
-          </p>
+            />DSP：{{ multiMedias.dsp }}
+          </p> -->
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />DSP：{{ i.dsp }}
-          </p>
-          <p class="px-2 py-1">
-            <fa
-              class="text-xs text-yellow-400 mr-3"
-              :icon="['fas', 'dot-circle']"
-            />建議售價：{{ i.price }}
+            />建議售價：{{ multiMedias.price }}
           </p>
         </div>
       </div>
@@ -155,13 +155,25 @@
 </template>
 
 <script>
-import multimedias from "~/static/multimedias.js";
 export default {
-  name: "multimedia",
+  name: "multiMedia",
   data() {
     return {
-      multimedias
+      multiMediasList: []
     };
+  },
+  mounted() {
+    this.getMultiMedias();
+  },
+  methods: {
+    getMultiMedias() {
+      this.$http.get('https://admin.meimai.com.tw/api/multimedia').then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.multiMediasList = result
+        }
+      })
+    }
   }
 };
 </script>

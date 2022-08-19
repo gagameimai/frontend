@@ -175,6 +175,7 @@ export default {
   name: "blindSpotDetail-id",
   data() {
     return {
+      blindSpotInfo: {},
       blindSpots,
       filterData: [],
       breadcrumb: "",
@@ -214,6 +215,17 @@ export default {
       item => item.id == this.$route.query.id
     );
     this.breadcrumb = this.filterData[0].name;
+    this.getBlindSpot();
+  },
+  methods: {
+    getBlindSpot() {
+      this.$http.get('https://admin.meimai.com.tw/api/blindspot/' + this.$route.query.id).then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.blindSpotInfo = result
+        }
+      })
+    }
   }
 };
 </script>

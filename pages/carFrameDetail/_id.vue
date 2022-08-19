@@ -57,18 +57,18 @@
     <div class="container mx-auto px-5 py-10 md:py-20">
       <h2 class="text-center text-3xl font-semibold mb-8">推廌搭配安卓機</h2>
       <div class="lg:grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
-        <div v-for="(i, idx) in multimedias" :key="idx" class="col-span-1 py-5">
+        <div v-for="(multiMedias, index) in multiMediasList" :key="index" class="col-span-1 py-5">
           <nuxt-link
             :to="{
               name: 'multimediaDetail-id',
               query: {
-                id: i.id
+                id: multiMedias.id
               }
             }"
           >
             <img
-              :src="require(`@/assets/img/multimedia/${i.img}`)"
-              :alt="i.name"
+              :src="multiMedias.img"
+              :alt="multiMedias.name"
               class="w-full"
             />
           </nuxt-link>
@@ -76,44 +76,44 @@
             <fa
               class="text-yellow-400 mr-3"
               :icon="['fas', 'arrow-alt-circle-right']"
-            />{{ i.name }}
+            />{{ multiMedias.name }}
           </h2>
           <hr class="mb-5" />
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />硬體：{{ i.core }}
+            />硬體：{{ multiMedias.hard_drive }}
           </p>
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />記憶體：{{ i.memory }}
+            />記憶體：{{ multiMedias.ram }}
           </p>
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />解析度：{{ i.dpi }}
+            />解析度：{{ multiMedias.resolution }}
+          </p>
+          <!-- <p class="px-2 py-1">
+            <fa
+              class="text-xs text-yellow-400 mr-3"
+              :icon="['fas', 'dot-circle']"
+            />系統：{{ multiMedias.system }}
           </p>
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />系統：{{ i.system }}
-          </p>
+            />DSP：{{ multiMedias.dsp }}
+          </p> -->
           <p class="px-2 py-1">
             <fa
               class="text-xs text-yellow-400 mr-3"
               :icon="['fas', 'dot-circle']"
-            />DSP：{{ i.dsp }}
-          </p>
-          <p class="px-2 py-1">
-            <fa
-              class="text-xs text-yellow-400 mr-3"
-              :icon="['fas', 'dot-circle']"
-            />建議售價：{{ i.price }}
+            />建議售價：{{ multiMedias.price }}
           </p>
         </div>
       </div>
@@ -123,13 +123,13 @@
 </template>
 
 <script>
-import multimedias from "~/static/multimedias.js";
 import carFrame from "~/static/carFrame.js";
 export default {
   name: "multimediaDetail-id",
   data() {
     return {
-      multimedias,
+      multiMediasList: [],
+      carFrameList: [],
       carFrame,
       filterData: [],
       breadcrumb: ""
@@ -141,6 +141,26 @@ export default {
       item => item.img == this.$route.query.img
     );
     this.breadcrumb = this.filterData[0].bland;
+    this.getMultiMedias();
+    this.getCarFrame();
+  },
+  methods: {
+    getMultiMedias() {
+      this.$http.get('https://admin.meimai.com.tw/api/multimedia').then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.multiMediasList = result
+        }
+      })
+    },
+    getCarFrame() {
+      this.$http.get('https://admin.meimai.com.tw/api/carframe/' + this.$route.query.img).then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.carFrameList = result
+        }
+      })
+    }
   }
 };
 </script>

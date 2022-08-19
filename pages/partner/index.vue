@@ -17,15 +17,9 @@
               <option value="">全區域</option>
               <option v-for="(county, index) in counties" :key="index" :value="index">{{ county }}</option>
             </select>
-            <!-- lists -->
-            <!-- data-aos="fade-left"
-              data-aos-duration="500"
-              data-aos-delay="300"
-              data-aos-once="true"
-              data-aos-anchor-placement="top-bottom" -->
             <div
-              v-for="(partner, idx) in partners"
-              :key="idx"
+              v-for="(partner, index) in partners"
+              :key="index"
               class="border shadow-md p-5 mb-5">
               <h4 class="text-lg font-semibold mb-3">{{ partner.name }}</h4>
               <p class="mb-2">

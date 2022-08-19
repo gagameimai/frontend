@@ -175,6 +175,7 @@ export default {
   name: "fittingDetail-id",
   data() {
     return {
+      fittingInfo: {},
       fittings,
       filterData: [],
       breadcrumb: ""
@@ -185,6 +186,17 @@ export default {
       item => item.id == this.$route.query.id
     );
     this.breadcrumb = this.filterData[0].name;
+    this.getFitting();
+  },
+  methods: {
+    getFitting() {
+      this.$http.get('https://admin.meimai.com.tw/api/fitting/' + this.$route.query.id).then((response) => {
+        let result = response.data.result;
+        if (result) {
+            this.fittingInfo = result;
+        }
+      })
+    }
   }
 };
 </script>

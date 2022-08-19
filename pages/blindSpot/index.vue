@@ -13,28 +13,28 @@
     <div class="container mx-auto px-5 py-10 md:py-20">
       <div class="md:grid md:grid-cols-3 lg:grid-cols-4 gap-8">
         <div
-          v-for="(i, idx) in blindSpots.prods"
-          :key="idx"
+          v-for="(blindSpot, index) in blindSpotList"
+          :key="index"
           class="col-span-1 py-5"
         >
           <nuxt-link
             :to="{
               name: 'blindSpotDetail-id',
               query: {
-                id: i.id
+                id: blindSpot.id
               }
             }"
           >
             <img
-              :src="require(`@/assets/img/blindSpot/${i.img}`)"
-              :alt="i.name"
+              :src="blindSpot.img"
+              :alt="blindSpot.name"
             />
             <hr class="mb-5" />
             <h2 class="text-lg font-medium mb-5">
               <fa
                 class="text-yellow-400 mr-3"
                 :icon="['fas', 'arrow-alt-circle-right']"
-              />{{ i.name }}
+              />{{ blindSpot.name }}
             </h2>
           </nuxt-link>
         </div>
@@ -45,13 +45,25 @@
 </template>
 
 <script>
-import blindSpots from "~/static/blindSpots.js";
 export default {
   name: "blindSpot",
   data() {
     return {
-      blindSpots
+      blindSpotList:[]
     };
+  },
+  mounted() {
+    this.getBlindSpot();
+  },
+  methods: {
+    getBlindSpot() {
+      this.$http.get('https://admin.meimai.com.tw/api/blindspot').then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.blindSpotList = result
+        }
+      })
+    }
   }
 };
 </script>

@@ -226,6 +226,7 @@ export default {
   name: "multimediaDetail-id",
   data() {
     return {
+      multiMediasInfo: {},
       multimedias,
       filterData: [],
       breadcrumb: ""
@@ -236,6 +237,17 @@ export default {
       item => item.id == this.$route.query.id
     );
     this.breadcrumb = this.filterData[0].mode;
+    this.getMultiMedias();
+  },
+  methods: {
+    getMultiMedias() {
+      this.$http.get('https://admin.meimai.com.tw/api/multimedia/' + this.$route.query.id).then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.multiMediasInfo = result
+        }
+      })
+    }
   }
 };
 </script>

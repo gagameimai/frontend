@@ -16,19 +16,19 @@
               <div>
                 <a
                   class="text-xl icons"
-                  href="https://www.facebook.com/MEIMAI.MM"
+                  :href="websiteInfo.facebook"
                   target="_bland"
                   ><fa class="mr-4 fone_size_1" :icon="['fab', 'facebook']"
                 /></a>
                 <a
                   class="text-xl icons"
-                  href="https://www.instagram.com/mm_meimai/"
+                  :href="websiteInfo.instagram"
                   target="_bland"
                   ><fa class="mr-4 fone_size_1" :icon="['fab', 'instagram']"
                 /></a>
                 <a
                   class="text-xl icons"
-                  href="https://www.youtube.com/channel/UCmOgNguLmmeNdXu_hgVPBSw"
+                  :href="websiteInfo.youtube"
                   target="_bland"
                   ><fa class="mr-4 fone_size_1" :icon="['fab', 'youtube']"
                 /></a>
@@ -36,9 +36,9 @@
             </div>
           </div>
           <div class="col-span-4">
-            <p class="mb-3">03-2170098</p>
-            <p class="mb-3">mm08168168@gmail.com</p>
-            <p class="mb-3">桃園市桃園區中信里國信街35號（總公司）</p>
+            <p class="mb-3">{{ websiteInfo.tel }}</p>
+            <p class="mb-3">{{ websiteInfo.email }}</p>
+            <p class="mb-3">{{ websiteInfo.address }}</p>
           </div>
           <div class="col-span-4">
             <div>
@@ -51,15 +51,11 @@
                 data-small-header="true"
                 data-adapt-container-width="true"
                 data-hide-cover="false"
-                data-show-facepile="true"
-              >
+                data-show-facepile="true">
                 <blockquote
                   cite="https://www.facebook.com/MM.MEIMAI"
-                  class="fb-xfbml-parse-ignore"
-                >
-                  <a href="https://www.facebook.com/MM.MEIMAI"
-                    >MEIMAI美邁車用電子有限公司</a
-                  >
+                  class="fb-xfbml-parse-ignore">
+                  <a href="https://www.facebook.com/MM.MEIMAI">MEIMAI美邁車用電子有限公司</a>
                 </blockquote>
               </div>
             </div>
@@ -68,7 +64,7 @@
         <hr class="hidden lg:block mb-5 border-gray-500" />
         <div>
           <p class="text-center text-white mb-0">
-            Copyright © 2022 MEIMAI. All Rights Reserved
+            {{ websiteInfo.copyright }}
           </p>
         </div>
       </div>
@@ -77,6 +73,30 @@
     <div id="fb-root"></div>
   </section>
 </template>
+
+<script>
+export default {
+  name: "footer",
+  data() {
+    return {
+      websiteInfo:[]
+    };
+  },
+  mounted() {
+    this.getWebsiteInfo();
+  },
+  methods: {
+    getWebsiteInfo() {
+      this.$http.get('https://admin.meimai.com.tw/api/website').then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.websiteInfo = result
+        }
+      })
+    }
+  }
+};
+</script>
 
 <style scoped>
 footer {

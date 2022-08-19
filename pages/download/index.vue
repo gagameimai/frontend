@@ -1,14 +1,11 @@
 <template>
   <section>
     <div class="img_box banner"></div>
-    <!---->
     <div class="container mx-auto px-5 py-40 md:py-20">
-      <!---->
       <div class="max-w-5xl mx-auto mb-16">
         <h2 class="text-2xl font-semibold uppercase lg:text-4xl mb-5">
           資源下載
         </h2>
-        <!---->
         <div v-for="(i, idx) in download" :key="idx" class="mb-10">
           <h6
             @click.stop="i.isShow = !i.isShow"
@@ -50,28 +47,8 @@
             </div>
           </transition>
         </div>
-        <!---->
-        <!-- <ul>
-          <li
-            v-for="(i, idx) in download"
-            :key="idx"
-            class="border rounded px-3 py-2 mb-5"
-          >
-            <p class="text-lg">
-              <span class="mr-5">{{ i.name }}：</span>
-              <a :href="i.link" target="_blank"
-                ><fa
-                  class="text-sm text-yellow-400 mr-2"
-                  :icon="['fas', 'download']"
-                /><span class="text-yellow-400">下載</span></a
-              >
-            </p>
-          </li>
-        </ul> -->
-        <!---->
       </div>
     </div>
-    <!---->
   </section>
 </template>
 
@@ -81,8 +58,22 @@ export default {
   name: "download",
   data() {
     return {
-      download
+      download,
+      versionList: []
     };
+  },
+  mounted() {
+    this.getResource();
+  },
+  methods: {
+    getResource() {
+      this.$http.get('https://admin.meimai.com.tw/api/resource').then((response) => {
+        let result = response.data.result;
+        if (result) {
+            this.versionList = result;
+        }
+      })
+    }
   }
 };
 </script>
@@ -127,17 +118,11 @@ export default {
 @media (min-width: 640px) {
 }
 @media (min-width: 768px) {
-  .banner {
-  }
 }
 @media (min-width: 1024px) {
 }
 @media (min-width: 1280px) {
-  .banner {
-  }
 }
 @media (min-width: 1536px) {
-  .banner {
-  }
 }
 </style>
