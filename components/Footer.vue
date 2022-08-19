@@ -76,7 +76,7 @@
 
 <script>
 export default {
-  name: "footer",
+  name: "website",
   data() {
     return {
       websiteInfo:[]
