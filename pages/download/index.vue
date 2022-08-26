@@ -6,13 +6,13 @@
         <h2 class="text-2xl font-semibold uppercase lg:text-4xl mb-5">
           資源下載
         </h2>
-        <div v-for="(i, idx) in download" :key="idx" class="mb-10">
+        <div v-for="(version, idx) in versionList" :key="idx" class="mb-10">
           <h6
-            @click.stop="i.isShow = !i.isShow"
+            @click.stop="version.isShow = !version.isShow"
             class="font-medium text-xl cursor-pointer mb-5"
           >
             <fa
-              v-if="i.isShow"
+              v-if="version.isShow"
               class="text-sm text-yellow-400 mr-2"
               :icon="['fas', 'minus']"
             />
@@ -22,20 +22,19 @@
               :icon="['fas', 'plus']"
             />
 
-            <span>{{ i.title }}</span>
+            <span>{{ version.name }}</span>
           </h6>
           <transition name="slide">
-            <div v-if="i.isShow">
-              <p v-for="(x, n) in i.desc" :key="n" class="mb-3">{{ x }}</p>
+            <div v-if="version.isShow">
+              <p class="mb-3 whitespace-pre-line">{{ version.memo }}</p>
               <ul>
                 <li
-                  v-for="(j, index) in i.version"
+                  v-for="(resource, index) in version.resources"
                   :key="index"
-                  class="border rounded px-3 py-2 mb-3"
-                >
+                  class="border rounded px-3 py-2 mb-3">
                   <p>
-                    <span class="mr-5">{{ j.name }}</span>
-                    <a :href="j.link" target="_blank"
+                    <span class="mr-5">{{ resource.name }}</span>
+                    <a :href="resource.url" target="_blank"
                       ><fa
                         class="text-sm text-yellow-400 mr-2"
                         :icon="['fas', 'download']"
@@ -53,12 +52,10 @@
 </template>
 
 <script>
-import download from "~/static/download.js";
 export default {
   name: "download",
   data() {
     return {
-      download,
       versionList: []
     };
   },
@@ -71,6 +68,14 @@ export default {
         let result = response.data.result;
         if (result) {
             this.versionList = result;
+            this.versionList.forEach((el, index) => {
+              if (index == 0 ) {
+                this.$set(this.versionList[index], 'isShow', true);
+              }
+              else {
+                this.$set(this.versionList[index], 'isShow', false);
+              }
+            })
         }
       })
     }
