@@ -99,12 +99,14 @@ export default {
 .slide {
   display: block;
   width: 100%;
+  max-height: 900px;
   /* height: auto; */
   -o-object-fit: cover;
   object-fit: cover;
   object-position: center;
 }
 .slide img {
+  max-height: 900px;
   width: 100%;
 }
 </style>
