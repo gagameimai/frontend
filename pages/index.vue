@@ -13,10 +13,11 @@
           >
             <option selected disabled>選擇汽車品牌</option>
             <option
-              v-for="(bland, idx) in blands"
-              :key="idx"
+              v-for="(brand, index) in brandList"
+              :key="index"
+              :value="brand.name"
               class="capitalize"
-              >{{ bland }}</option
+              >{{ brand.name }}</option
             >
           </select>
         </div>
@@ -317,6 +318,9 @@ export default {
     return {
       carFrame,
       blands: [],
+      brandList: [],
+      car: [],
+      carType: [],
       types: [],
       years: [],
       blandInputValue: "選擇汽車品牌",
@@ -335,9 +339,22 @@ export default {
     const newBlands = this.carFrame.map(item => item.bland);
     this.blands = [...new Set(newBlands)];
     // 收集 option value
+    this.getBrand();
     this.getPartner();
   },
   methods: {
+    getBrand() {
+      this.$http.get('https://admin.meimai.com.tw/api/car').then((response) => {
+        let carBrand = response.data.car_brand,
+            car = response.data.car;
+        if (carBrand) {
+          this.brandList = carBrand;
+        }
+        if (car) {
+          this.car = car;
+        }
+      })
+    },
     getPartner() {
       let params = {
         county: this.county
@@ -370,6 +387,14 @@ export default {
       });
       this.types = [...new Set(arr)];
       this.typeSelect = false;
+
+      this.carType = [];
+      this.car.forEach(el => {
+        if(this.blandInputValue == el.car_brand_id) {
+          this.carType.push(el);
+        }
+      });
+      console.log(this.carType);
     },
     typeChange() {
       const newArray = this.carFrame.filter(

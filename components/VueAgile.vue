@@ -1,36 +1,12 @@
 <template>
   <section id="vue_agile">
     <client-only placeholder="Loading...">
-      <agile :autoplay="true">
-        <div class="slide">
+      <agile v-if="bannerList.length != 0" :autoplay="true">
+        <div v-for="(banner, index) in bannerList"
+            :key="index"
+            class="slide">
           <img
-            class="md:hidden"
-            src="@/assets/img/carousel/Phone_android.png"
-          />
-          <img
-            class="hidden md:block"
-            src="@/assets/img/carousel/banner-android.png"
-          />
-        </div>
-        <div class="slide">
-          <img
-            class="md:hidden"
-            src="@/assets/img/carousel/Phone_blindspot.png"
-          />
-          <img
-            class="hidden md:block"
-            src="@/assets/img/carousel/banner-blindspot.png"
-          />
-        </div>
-        <div class="slide">
-          <img
-            class="md:hidden"
-            src="@/assets/img/carousel/Phone_fittings.png"
-          />
-          <img
-            class="hidden md:block"
-            src="@/assets/img/carousel/banner-fittings.png"
-          />
+            :src="banner.img"/>
         </div>
         <template slot="prevButton">
           <!-- <i class="fas fa-chevron-left"></i>
@@ -44,6 +20,30 @@
     </client-only>
   </section>
 </template>
+
+<script>
+export default {
+  name: "banner",
+  data() {
+    return {
+      bannerList: []
+    };
+  },
+  mounted() {
+    this.getbanner();
+  },
+  methods: {
+    getbanner() {
+      this.$http.get('https://admin.meimai.com.tw/api/banner').then((response) => {
+        let result = response.data.result;
+        if (result) {
+            this.bannerList = result;
+        }
+      })
+    }
+  }
+};
+</script>
 
 <style>
 .agile__nav-button {
@@ -99,7 +99,6 @@
 .slide {
   display: block;
   width: 100%;
-  max-height: 900px;
   /* height: auto; */
   -o-object-fit: cover;
   object-fit: cover;
@@ -107,6 +106,5 @@
 }
 .slide img {
   width: 100%;
-  max-height: 900px;
 }
 </style>
