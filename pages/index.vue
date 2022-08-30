@@ -8,14 +8,14 @@
         <div class="col-span-3 mb-3 md:mb-0">
           <select
             v-model="blandInputValue"
-            @change="blandChange"
+            @change="brandChange"
             class="w-full h-12 p-3 text-black border rounded-md bg-white"
           >
             <option selected disabled>選擇汽車品牌</option>
             <option
               v-for="(brand, index) in brandList"
               :key="index"
-              :value="brand.name"
+              :value="brand.id"
               class="capitalize"
               >{{ brand.name }}</option
             >
@@ -24,12 +24,17 @@
         <div class="col-span-3 mb-3 md:mb-0">
           <select
             v-model="typeInputValue"
-            @change="typeChange"
+            @change="modelChange"
             :disabled="typeSelect"
             class="w-full h-12 p-3 text-black border rounded-md bg-white"
           >
             <option selected disabled>選擇車款</option>
-            <option v-for="(type, idx) in types" :key="idx">{{ type }}</option>
+            <option 
+              v-for="(type, index) in modelList"
+              :key="index"
+              :value="type.name">
+              {{ type.name }}
+            </option>
             <option value="all">所有車款</option>
           </select>
         </div>
@@ -40,7 +45,11 @@
             class="w-full h-12 p-3 text-black border rounded-md bg-white"
           >
             <option selected disabled>選擇年份</option>
-            <option v-for="(year, idx) in years" :key="idx">{{ year }}</option>
+            <option
+              v-for="(year, idx) in yearList"
+              :key="idx">
+              {{ year }}
+            </option>
             <option value="all">所有年份</option>
           </select>
         </div>
@@ -73,7 +82,7 @@
             <div cclass="mb-3">
               <select
                 v-model="blandInputValue"
-                @change="blandChange"
+                @change="brandChange"
                 class="w-full h-12 p-3 text-black"
               >
                 <option selected disabled>選擇汽車品牌</option>
@@ -89,7 +98,7 @@
             <div cclass="mb-3">
               <select
                 v-model="typeInputValue"
-                @change="typeChange"
+                @change="modelChange"
                 :disabled="typeSelect"
                 class="w-full h-12 p-3 text-black"
               >
@@ -320,8 +329,9 @@ export default {
       blands: [],
       brandList: [],
       car: [],
-      carType: [],
+      modelList: [],
       types: [],
+      yearList: [],
       years: [],
       blandInputValue: "選擇汽車品牌",
       typeInputValue: "選擇車款",
@@ -339,11 +349,13 @@ export default {
     const newBlands = this.carFrame.map(item => item.bland);
     this.blands = [...new Set(newBlands)];
     // 收集 option value
-    this.getBrand();
+
+    // 取得下拉選單所有資料
+    this.getListData();
     this.getPartner();
   },
   methods: {
-    getBrand() {
+    getListData() {
       this.$http.get('https://admin.meimai.com.tw/api/car').then((response) => {
         let carBrand = response.data.car_brand,
             car = response.data.car;
@@ -370,7 +382,7 @@ export default {
         }
       })
     },
-    blandChange() {
+    brandChange() {
       // default setting
       this.typeInputValue = "選擇車款";
       this.yearInputValue = "選擇年份";
@@ -388,15 +400,15 @@ export default {
       this.types = [...new Set(arr)];
       this.typeSelect = false;
 
-      this.carType = [];
+      this.modelList = [];
       this.car.forEach(el => {
         if(this.blandInputValue == el.car_brand_id) {
-          this.carType.push(el);
+          this.modelList.push(el);
         }
       });
-      console.log(this.carType);
+      console.log(this.modelList);
     },
-    typeChange() {
+    modelChange() {
       const newArray = this.carFrame.filter(
         item =>
           item.bland === this.blandInputValue &&
@@ -408,6 +420,44 @@ export default {
       });
       this.years = [...new Set(arr)];
       this.yearSelect = false;
+
+      this.yearList = [];
+      let tempStart = 0,
+          tempEnd = 0;
+      if(this.typeInputValue == 'all') {
+        this.modelList.forEach((el, index) => {
+          if (index == 0) {
+            tempStart = el.year_start;
+            tempEnd = el.year_end;
+          }
+          else {
+            if (el.year_start < tempStart) {
+              tempStart = el.year_start;
+            }
+            if (el.year_end > tempEnd) {
+              tempEnd = el.year_end;
+            }
+          }
+        });
+        if (tempStart != 0 && tempEnd != 0) {
+          let years = +tempEnd - +tempStart;
+          this.yearList.push(tempStart);
+          for(let i=1; i<=years; i++) {
+            this.yearList.push(+tempStart + i);
+          }
+        }
+      }
+      else {
+        this.modelList.forEach(el => {
+          if(this.typeInputValue == el.name) {
+            let years = +el.year_end - +el.year_start;
+            this.yearList.push(el.year_start);
+            for(let i=1; i<=years; i++) {
+              this.yearList.push(+el.year_start + i);
+            }
+          }
+        });
+      }
     },
     searchData() {
       if (this.blandInputValue == "選擇汽車品牌") {
@@ -430,7 +480,7 @@ export default {
           // year: this.yearInputValue
         }
       });
-      localStorage.setItem("bland", this.blandInputValue);
+      localStorage.setItem("brand", this.blandInputValue);
       localStorage.setItem("model", this.typeInputValue);
       localStorage.setItem("year", this.yearInputValue);
     }
