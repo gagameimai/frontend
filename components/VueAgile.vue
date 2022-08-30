@@ -5,8 +5,10 @@
         <div v-for="(banner, index) in bannerList"
             :key="index"
             class="slide">
-          <img
-            :src="banner.img"/>
+          <a :href="banner.url">
+            <img
+              :src="banner.img"/>
+          </a>
         </div>
         <template slot="prevButton">
           <!-- <i class="fas fa-chevron-left"></i>
