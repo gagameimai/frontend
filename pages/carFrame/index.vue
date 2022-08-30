@@ -170,6 +170,7 @@ export default {
   data() {
     return {
       carFrame,
+      carFrameList: [],
       blands: [],
       types: [],
       years: [],
@@ -245,8 +246,17 @@ export default {
     } else {
       this.changePage();
     }
+    this.getCarFrame();
   },
   methods: {
+    getCarFrame() {
+      this.$http.get('https://admin.meimai.com.tw/api/carframe').then((response) => {
+        let result = response.data.result;
+        if (result) {
+          this.carFrameList = result;
+        }
+      })
+    },
     //test
     tagList(bland) {
       if (bland == "allBland") {
