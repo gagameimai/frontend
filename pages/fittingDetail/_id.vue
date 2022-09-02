@@ -13,6 +13,17 @@
     </div>
     <!---->
     <div class="container mx-auto px-5 py-20">
+      <div class="max-w-5xl mx-auto text-center">
+        <h2 class="text-center text-2xl lg:text-3xl font-semibold mb-5">
+          {{ fittingInfo.name }}
+        </h2>
+        <p class="mb-5">{{ fittingInfo.memo_in }}</p>
+        <img
+            :src="fittingInfo.img"
+            :alt="fittingInfo.name"
+            class="w-full mb-10" />
+      </div>
+      <div v-html="fittingInfo.content"></div>
       <div
         v-for="(i, idx) in filterData"
         :key="idx"
@@ -175,10 +186,10 @@ export default {
   name: "fittingDetail-id",
   data() {
     return {
-      fittingInfo: {},
       fittings,
       filterData: [],
-      breadcrumb: ""
+      breadcrumb: "",
+      fittingInfo: {}
     };
   },
   mounted() {
@@ -194,6 +205,8 @@ export default {
         let result = response.data.result;
         if (result) {
             this.fittingInfo = result;
+            // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css 
+            this.fittingInfo.content = this.fittingInfo.content.replaceAll('<img', '<img class="mx-auto"');
         }
       })
     }
