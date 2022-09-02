@@ -32,7 +32,7 @@
             <option 
               v-for="(type, index) in modelList"
               :key="index"
-              :value="type.name">
+              :value="type.id">
               {{ type.name }}
             </option>
             <option value="all">所有車款</option>
@@ -63,78 +63,6 @@
         </div>
       </div>
     </div>
-    <!-- banner -->
-    <!-- <div class="banner">
-      <div
-        class="container mx-auto lg:grid grid-cols-6 gap-10 text-white px-5 py-16 md:py-20 lg:py-40"
-      >
-        <div class="col-span-4">
-          <div></div>
-        </div>
-        <div class="col-span-2">
-          <div class="py-10">
-            <h1 class="font-extrabold text-3xl md:text-4xl mb-5 text-shadow">
-              為您的愛車量身打造
-            </h1>
-            <h2 class="font-semibold text-2xl mb-3 text-shadow">
-              您的車型是？
-            </h2>
-            <div cclass="mb-3">
-              <select
-                v-model="blandInputValue"
-                @change="brandChange"
-                class="w-full h-12 p-3 text-black"
-              >
-                <option selected disabled>選擇汽車品牌</option>
-                <option
-                  v-for="(bland, idx) in blands"
-                  :key="idx"
-                  class="capitalize"
-                  >{{ bland }}</option
-                >
-              </select>
-            </div>
-            <br />
-            <div cclass="mb-3">
-              <select
-                v-model="typeInputValue"
-                @change="modelChange"
-                :disabled="typeSelect"
-                class="w-full h-12 p-3 text-black"
-              >
-                <option selected disabled>選擇車款</option>
-                <option v-for="(type, idx) in types" :key="idx">{{
-                  type
-                }}</option>
-                <option value="all">所有車款</option>
-              </select>
-            </div>
-            <br />
-            <div cclass="mb-10">
-              <select
-                v-model="yearInputValue"
-                :disabled="yearSelect"
-                class="w-full h-12 p-3 text-black"
-              >
-                <option selected disabled>選擇年份</option>
-                <option v-for="(year, idx) in years" :key="idx">{{
-                  year
-                }}</option>
-                <option value="all">所有年份</option>
-              </select>
-            </div>
-            <br />
-            <button
-              @click="searchData"
-              class="w-full bg-yellow-400 hover:bg-yellow-500 transition-all duration-300 p-3"
-            >
-              搜尋
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- banner end-->
     <!-- product -->
     <div id="productList">
       <div class="container mx-auto p-5">
@@ -406,7 +334,6 @@ export default {
           this.modelList.push(el);
         }
       });
-      console.log(this.modelList);
     },
     modelChange() {
       const newArray = this.carFrame.filter(
@@ -449,7 +376,7 @@ export default {
       }
       else {
         this.modelList.forEach(el => {
-          if(this.typeInputValue == el.name) {
+          if(this.typeInputValue == el.id) {
             let years = +el.year_end - +el.year_start;
             this.yearList.push(el.year_start);
             for(let i=1; i<=years; i++) {

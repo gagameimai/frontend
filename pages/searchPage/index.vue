@@ -38,7 +38,7 @@
                 <option 
                   v-for="(type, index) in modelList"
                   :key="index"
-                  :value="type.name">
+                  :value="type.id">
                   {{ type.name }}
                 </option>
                 <option value="all">所有車款</option>
@@ -79,36 +79,36 @@
         <h2 class="text-2xl lg:text-3xl font-semibold py-5">多媒體機車框</h2>
         <div class="md:grid md:grid-cols-3 xl:grid-cols-4 gap-8">
           <div
-            v-for="(i, idx) in fiterCarFrames"
-            :key="idx"
+            v-for="(carFrame, index) in carFrameList"
+            :key="index"
             class="col-span-1 py-5"
           >
             <nuxt-link
               :to="{
                 name: 'carFrameDetail-id',
                 query: {
-                  img: i.img
+                  id: carFrame.id
                 }
               }"
             >
               <img
                 class="mb-3"
-                :src="require(`@/assets/img/carFrame/${i.img}.png`)"
-                :alt="i.name"
+                :src="carFrame.img"
+                :alt="carFrame.name"
               />
               <hr class="mb-2" />
               <h3 class="text-xl font-semibold">
                 <fa
                   class="text-yellow-400 mr-3"
                   :icon="['fas', 'arrow-alt-circle-right']"
-                /><i>{{ i.bland }} {{ i.type }}</i>
+                /><i>{{ carFrame.name}}</i>
               </h3>
               <p class="text-xl flex items-center">
-                <span class="mr-2">{{ i.range }}</span>
+                <span class="mr-2">{{ carFrame.year_start }} ~ {{ carFrame.year_end }}</span>
                 <span
-                  class="text-sm font-medium border rounded-sm border-yellow-400 px-1"
-                  >{{ i.size }}</span
-                >
+                  class="text-sm font-medium border rounded-sm border-yellow-400 px-1">
+                  {{ carFrame.size }}吋
+                </span>
               </p>
             </nuxt-link>
           </div>
@@ -259,7 +259,8 @@ export default {
       totalPage: 5,
       currentPage: 1,
       filterData: [],
-      fiterCarFrames: []
+      fiterCarFrames: [],
+      carFrameList: []
     };
   },
   mounted: async function() {
@@ -436,7 +437,7 @@ export default {
       }
       else {
         this.modelList.forEach(el => {
-          if(this.typeInputValue == el.name) {
+          if(this.typeInputValue == el.id) {
             let years = +el.year_end - +el.year_start;
             this.yearList.push(el.year_start);
             for(let i=1; i<=years; i++) {
@@ -480,19 +481,19 @@ export default {
       //   });
       // }
 
-      this.fiterCarFrames = [];
+      this.carFrameList = [];
 
       let params = {
         car_brand_id: this.blandInputValue,
-        car_id: '',//this.typeInputValue == 'all' || !this.typeInputValue ? '' : this.typeInputValue,
-        year: '',//this.yearInputValue == 'all' || !this.yearInputValue ? '' : this.yearInputValue,
+        car_id: this.typeInputValue == 'all' || !this.typeInputValue ? '' : this.typeInputValue,
+        year: this.yearInputValue == 'all' || !this.yearInputValue ? '' : this.yearInputValue,
       }
 
       this.$http.get('https://admin.meimai.com.tw/api/search', {params}).then((response) => {
           let result = response.data.result;
           if (result) {
             if (result.car_frame.length > 0) {
-              this.fiterCarFrames = result.car_frame
+              this.carFrameList = result.car_frame
             }
           }
       });
