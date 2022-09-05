@@ -7,7 +7,7 @@
       <div class="md:grid grid-cols-11 gap-8">
         <div class="col-span-3 mb-3 md:mb-0">
           <select
-            v-model="blandInputValue"
+            v-model="brandInputValue"
             @change="brandChange"
             class="w-full h-12 p-3 text-black border rounded-md bg-white"
           >
@@ -23,17 +23,17 @@
         </div>
         <div class="col-span-3 mb-3 md:mb-0">
           <select
-            v-model="typeInputValue"
+            v-model="modelInputValue"
             @change="modelChange"
             :disabled="typeSelect"
             class="w-full h-12 p-3 text-black border rounded-md bg-white"
           >
             <option selected disabled>選擇車款</option>
             <option 
-              v-for="(type, index) in modelList"
+              v-for="(model, index) in modelList"
               :key="index"
-              :value="type.id">
-              {{ type.name }}
+              :value="model.id">
+              {{ model.name }}
             </option>
             <option value="all">所有車款</option>
           </select>
@@ -46,8 +46,8 @@
           >
             <option selected disabled>選擇年份</option>
             <option
-              v-for="(year, idx) in yearList"
-              :key="idx">
+              v-for="(year, index) in yearList"
+              :key="index">
               {{ year }}
             </option>
             <option value="all">所有年份</option>
@@ -261,8 +261,8 @@ export default {
       types: [],
       yearList: [],
       years: [],
-      blandInputValue: "選擇汽車品牌",
-      typeInputValue: "選擇車款",
+      brandInputValue: "選擇汽車品牌",
+      modelInputValue: "選擇車款",
       yearInputValue: "選擇年份",
       typeSelect: true,
       yearSelect: true,
@@ -312,13 +312,13 @@ export default {
     },
     brandChange() {
       // default setting
-      this.typeInputValue = "選擇車款";
+      this.modelInputValue = "選擇車款";
       this.yearInputValue = "選擇年份";
       this.typeSelect = true;
       this.yearSelect = true;
       //
       const newArray = this.carFrame.filter(
-        item => item.bland === this.blandInputValue
+        item => item.bland === this.brandInputValue
       );
       const arr = [];
       newArray.forEach(item => {
@@ -330,7 +330,7 @@ export default {
 
       this.modelList = [];
       this.car.forEach(el => {
-        if(this.blandInputValue == el.car_brand_id) {
+        if(this.brandInputValue == el.car_brand_id) {
           this.modelList.push(el);
         }
       });
@@ -338,8 +338,8 @@ export default {
     modelChange() {
       const newArray = this.carFrame.filter(
         item =>
-          item.bland === this.blandInputValue &&
-          item.type.includes(this.typeInputValue)
+          item.bland === this.brandInputValue &&
+          item.type.includes(this.modelInputValue)
       );
       const arr = [];
       newArray.forEach(item => {
@@ -351,7 +351,7 @@ export default {
       this.yearList = [];
       let tempStart = 0,
           tempEnd = 0;
-      if(this.typeInputValue == 'all') {
+      if(this.modelInputValue == 'all') {
         this.modelList.forEach((el, index) => {
           if (index == 0) {
             tempStart = el.year_start;
@@ -376,7 +376,7 @@ export default {
       }
       else {
         this.modelList.forEach(el => {
-          if(this.typeInputValue == el.id) {
+          if(this.modelInputValue == el.id) {
             let years = +el.year_end - +el.year_start;
             this.yearList.push(el.year_start);
             for(let i=1; i<=years; i++) {
@@ -387,11 +387,11 @@ export default {
       }
     },
     searchData() {
-      if (this.blandInputValue == "選擇汽車品牌") {
+      if (this.brandInputValue == "選擇汽車品牌") {
         alert("請選擇汽車品牌");
         return;
       }
-      if (this.typeInputValue == "選擇車款") {
+      if (this.modelInputValue == "選擇車款") {
         alert("請選擇車款");
         return;
       }
@@ -402,13 +402,13 @@ export default {
       this.$router.push({
         name: "searchPage",
         query: {
-          // bland: this.blandInputValue,
-          // model: this.typeInputValue,
+          // bland: this.brandInputValue,
+          // model: this.modelInputValue,
           // year: this.yearInputValue
         }
       });
-      localStorage.setItem("brand", this.blandInputValue);
-      localStorage.setItem("model", this.typeInputValue);
+      localStorage.setItem("brand", this.brandInputValue);
+      localStorage.setItem("model", this.modelInputValue);
       localStorage.setItem("year", this.yearInputValue);
     }
   }

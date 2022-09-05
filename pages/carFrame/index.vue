@@ -14,29 +14,35 @@
             <!---->
             <div class="col-span-3 mb-3 lg:mb-0">
               <select
-                v-model="blandInputValue"
-                @change="blandChange"
+                v-model="brandInputValue"
+                @change="brandChange"
                 class="w-full h-12 p-3 text-black"
               >
                 <option selected disabled>選擇汽車品牌</option>
-                <option v-for="(bland, idx) in blands" :key="idx">{{
-                  bland
-                }}</option>
+                <option
+                  v-for="(brand, index) in brandList"
+                  :key="index"
+                  :value="brand.id">
+                  {{ brand.name }}
+                </option>
                 <option value="all">所有品牌</option>
               </select>
             </div>
             <!---->
             <div class="col-span-3 mb-3 lg:mb-0">
               <select
-                v-model="typeInputValue"
-                @change="typeChange"
+                v-model="modelInputValue"
+                @change="modelChange"
                 :disabled="typeSelect"
                 class="w-full h-12 p-3 text-black"
               >
                 <option selected disabled>選擇車款</option>
-                <option v-for="(type, idx) in types" :key="idx">{{
-                  type
-                }}</option>
+                <option
+                  v-for="(model, index) in modelList"
+                  :key="index"
+                  :value="model.id">
+                  {{ model.name }}
+                </option>
                 <option value="all">所有車款</option>
               </select>
             </div>
@@ -48,16 +54,18 @@
                 class="w-full h-12 p-3 text-black"
               >
                 <option selected disabled>選擇年份</option>
-                <option v-for="(year, idx) in years" :key="idx">{{
-                  year
-                }}</option>
+                <option
+                  v-for="(year, index) in yearList"
+                  :key="index">
+                  {{ year }}
+                </option>
                 <option value="all">所有年份</option>
               </select>
             </div>
             <!---->
             <div class="col-span-1">
               <button
-                @click="searchData"
+                @click="search"
                 class="w-full h-full text-white font-medium bg-yellow-300 hover:bg-yellow-400 transition-all duration-300 py-2"
               >
                 <fa class="text-sm mr-2" :icon="['fas', 'search']" />搜尋
@@ -90,32 +98,33 @@
       </div> -->
       <!-- item lists -->
       <div class="md:grid md:grid-cols-3 xl:grid-cols-4 gap-8">
-        <div v-for="(i, idx) in filterData" :key="idx" class="col-span-1 py-5">
+        <div
+          v-for="(carFrame, index) in carFrameList"
+          :key="index"
+          class="col-span-1 py-5">
           <nuxt-link
             :to="{
               name: 'carFrameDetail-id',
               query: {
-                img: i.img
+                id: carFrame.id
               }
-            }"
-          >
+            }">
             <img
               class="mb-3"
-              :src="require(`@/assets/img/carFrame/${i.img}.png`)"
-              :alt="i.name"
-            />
+              :src="carFrame.img"
+              :alt="carFrame.name" />
             <hr class="mb-2" />
             <h3 class="text-xl font-semibold">
               <fa
                 class="text-yellow-400 mr-3"
-                :icon="['fas', 'arrow-alt-circle-right']"
-              /><i>{{ i.bland }} {{ i.type }}</i>
+                :icon="['fas', 'arrow-alt-circle-right']" />
+                <i>{{ carFrame.name }}</i>
             </h3>
             <p class="text-xl flex items-center">
-              <span class="mr-2">{{ i.range }}</span>
+              <span class="mr-2">{{ carFrame.year_start }}~{{ carFrame.year_end }}</span>
               <span
                 class="text-sm font-medium border rounded-sm border-yellow-400 px-1"
-                >{{ i.size }}</span
+                >{{ carFrame.size }}吋</span
               >
             </p>
           </nuxt-link>
@@ -123,7 +132,7 @@
       </div>
     </div>
     <!-- pagination -->
-    <div v-show="!searchStatus" class="container mx-auto px-5 py-20">
+    <!-- <div v-show="!searchStatus" class="container mx-auto px-5 py-20">
       <div class="flex justify-center">
         <ul class="flex">
           <li
@@ -155,8 +164,7 @@
           </li>
         </ul>
       </div>
-      <!---->
-    </div>
+    </div> -->
     <!-- end -->
   </section>
 </template>
@@ -172,10 +180,14 @@ export default {
       carFrame,
       carFrameList: [],
       blands: [],
+      brandList: [],
+      car: [],
+      modelList: [],
       types: [],
+      yearList: [],
       years: [],
-      blandInputValue: "選擇汽車品牌",
-      typeInputValue: "選擇車款",
+      brandInputValue: "選擇汽車品牌",
+      modelInputValue: "選擇車款",
       yearInputValue: "選擇年份",
       typeSelect: true,
       yearSelect: true,
@@ -204,15 +216,15 @@ export default {
       // 隱藏頁籤
       this.searchStatus = true;
       //
-      this.blandInputValue = LSBland;
-      this.typeInputValue = LSType;
+      this.brandInputValue = LSBland;
+      this.modelInputValue = LSType;
       this.yearInputValue = LSYear;
       //
       this.typeSelect = false;
       this.yearSelect = false;
       // 顯示車款
       const newTypeArray = this.carFrame.filter(
-        item => item.bland === this.blandInputValue
+        item => item.bland === this.brandInputValue
       );
       const typeArr = [];
       newTypeArray.forEach(item => {
@@ -222,8 +234,8 @@ export default {
       // 顯示年份
       const newYearArray = this.carFrame.filter(
         item =>
-          item.bland === this.blandInputValue &&
-          item.type.includes(this.typeInputValue)
+          item.bland === this.brandInputValue &&
+          item.type.includes(this.modelInputValue)
       );
       const yearArr = [];
       newYearArray.forEach(item => {
@@ -231,26 +243,55 @@ export default {
       });
       this.years = [...new Set(yearArr)];
       // 顯示資料
-      if (this.typeInputValue == "all" || this.yearInputValue == "all") {
+      if (this.modelInputValue == "all" || this.yearInputValue == "all") {
         this.filterData = this.carFrame.filter(
-          item => item.bland == this.blandInputValue
+          item => item.bland == this.brandInputValue
         );
       } else {
         this.filterData = this.carFrame.filter(
           item =>
-            item.bland == this.blandInputValue &&
-            item.model.includes(this.typeInputValue) &&
+            item.bland == this.brandInputValue &&
+            item.model.includes(this.modelInputValue) &&
             item.year.includes(this.yearInputValue * 1)
         );
       }
     } else {
       this.changePage();
     }
-    this.getCarFrame();
+    // 取得下拉選單所有資料
+    this.getListData();
   },
   methods: {
+    getListData() {
+      this.$http.get('https://admin.meimai.com.tw/api/car').then((response) => {
+        let carBrand = response.data.car_brand,
+            car = response.data.car;
+        if (carBrand) {
+          this.brandList = carBrand;
+          // 由於指定TOYOTA
+          this.brandList.forEach(el => {
+            if (el.name == 'AUDI') {
+              this.brandInputValue = el.id;
+              this.modelInputValue = 'all';
+              this.yearInputValue = 'all';
+              return;
+            }
+          });
+          this.getCarFrame();
+        }
+        if (car) {
+          this.car = car;
+        }
+      })
+    },
     getCarFrame() {
-      this.$http.get('https://admin.meimai.com.tw/api/carframe').then((response) => {
+      let params = {
+        car_brand_id: this.brandInputValue == 'all' || !this.brandInputValue ? '' : this.brandInputValue,
+        car_id: this.modelInputValue == 'all' || !this.modelInputValue ? '' : this.modelInputValue,
+        year: this.yearInputValue == 'all' || !this.yearInputValue ? '' : this.yearInputValue
+      }
+
+      this.$http.get('https://admin.meimai.com.tw/api/carframe', {params}).then((response) => {
         let result = response.data.result;
         if (result) {
           this.carFrameList = result;
@@ -289,21 +330,21 @@ export default {
       this.currentPage--;
       this.changePage();
     },
-    blandChange() {
+    brandChange() {
       // default setting
-      this.typeInputValue = "選擇車款";
+      this.modelInputValue = "選擇車款";
       this.yearInputValue = "選擇年份";
       this.typeSelect = true;
       this.yearSelect = true;
       //
-      if (this.blandInputValue == "all") {
+      if (this.brandInputValue == "all") {
         this.changePage();
         localStorage.removeItem("LSBland");
         localStorage.removeItem("LSType");
         localStorage.removeItem("LSYear");
       } else {
         const newArray = this.carFrame.filter(
-          item => item.bland === this.blandInputValue
+          item => item.bland === this.brandInputValue
         );
         const arr = [];
         newArray.forEach(item => {
@@ -312,12 +353,19 @@ export default {
         this.types = [...new Set(arr)];
         this.typeSelect = false;
       }
+
+      this.modelList = [];
+      this.car.forEach(el => {
+        if(this.brandInputValue == el.car_brand_id) {
+          this.modelList.push(el);
+        }
+      });
     },
-    typeChange() {
+    modelChange() {
       const newArray = this.carFrame.filter(
         item =>
-          item.bland === this.blandInputValue &&
-          item.type.includes(this.typeInputValue)
+          item.bland === this.brandInputValue &&
+          item.type.includes(this.modelInputValue)
       );
       const arr = [];
       newArray.forEach(item => {
@@ -325,55 +373,93 @@ export default {
       });
       this.years = [...new Set(arr)];
       this.yearSelect = false;
+
+      this.yearList = [];
+      let tempStart = 0,
+          tempEnd = 0;
+      if(this.modelInputValue == 'all') {
+        this.modelList.forEach((el, index) => {
+          if (index == 0) {
+            tempStart = el.year_start;
+            tempEnd = el.year_end;
+          }
+          else {
+            if (el.year_start < tempStart) {
+              tempStart = el.year_start;
+            }
+            if (el.year_end > tempEnd) {
+              tempEnd = el.year_end;
+            }
+          }
+        });
+        if (tempStart != 0 && tempEnd != 0) {
+          let years = +tempEnd - +tempStart;
+          this.yearList.push(tempStart);
+          for(let i=1; i<=years; i++) {
+            this.yearList.push(+tempStart + i);
+          }
+        }
+      }
+      else {
+        this.modelList.forEach(el => {
+          if(this.modelInputValue == el.id) {
+            let years = +el.year_end - +el.year_start;
+            this.yearList.push(el.year_start);
+            for(let i=1; i<=years; i++) {
+              this.yearList.push(+el.year_start + i);
+            }
+          }
+        });
+      }
     },
-    searchData() {
+    search() {
       // 沒有選品牌就按
-      if (this.blandInputValue == "選擇汽車品牌") {
+      if (this.brandInputValue == "選擇汽車品牌") {
         alert("請選擇汽車品牌");
         return;
       }
       // 沒有選車款就按
-      if (this.typeInputValue == "選擇車款") {
-        if (this.blandInputValue != "all") {
+      if (this.modelInputValue == "選擇車款") {
+        if (this.brandInputValue != "all") {
           alert("請選擇車款");
         }
         return;
       }
       // 沒有選年份就按
       if (this.yearInputValue == "選擇年份") {
-        if (this.blandInputValue != "all") {
+        if (this.brandInputValue != "all") {
           alert("請選擇年份");
         }
         return;
       }
       // 當車款為 all 時且 年份為 all 時的情況
-      if (this.typeInputValue == "all" && this.yearInputValue == "all") {
+      if (this.modelInputValue == "all" && this.yearInputValue == "all") {
         this.filterData = this.carFrame.filter(
-          item => item.bland == this.blandInputValue
+          item => item.bland == this.brandInputValue
         );
       }
       // 當年份為 all 時的情況
       else if (this.yearInputValue == "all") {
         this.filterData = this.carFrame.filter(
           item =>
-            item.bland == this.blandInputValue &&
-            item.model.includes(this.typeInputValue)
+            item.bland == this.brandInputValue &&
+            item.model.includes(this.modelInputValue)
         );
       }
       // 車款、年份都有值的情況
       else {
         this.filterData = this.carFrame.filter(
           item =>
-            item.bland == this.blandInputValue &&
-            item.model.includes(this.typeInputValue) &&
+            item.bland == this.brandInputValue &&
+            item.model.includes(this.modelInputValue) &&
             item.year.includes(this.yearInputValue * 1)
         );
       }
       // 隱藏頁籤
       this.searchStatus = true;
       // store LSBland、LSType、LSYear to localStorage
-      localStorage.setItem("LSBland", this.blandInputValue);
-      localStorage.setItem("LSType", this.typeInputValue);
+      localStorage.setItem("LSBland", this.brandInputValue);
+      localStorage.setItem("LSType", this.modelInputValue);
       localStorage.setItem("LSYear", this.yearInputValue);
       localStorage.removeItem("page");
     }
@@ -382,7 +468,7 @@ export default {
     currentPage() {
       localStorage.setItem("page", this.currentPage);
     }
-    // blandInputValue: {
+    // brandInputValue: {
     //   immediate: true,
     //   handler(newValue, oldValue) {
     //     console.log("newValue", newValue);

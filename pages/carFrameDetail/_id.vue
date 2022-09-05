@@ -13,6 +13,24 @@
     </div>
     <!---->
     <div class="container mx-auto px-5 py-20">
+      <div class="max-w-5xl mx-auto text-center">
+        <h2 class="text-center text-2xl lg:text-3xl font-semibold mb-5">
+          {{ carFrameInfo.name }}
+        </h2>
+        <p class="text-xl font-medium mb-5">
+          年份 / {{ carFrameInfo.year_start }}~{{ carFrameInfo.year_end }} 、 尺寸 / {{ carFrameInfo.size }}吋
+        </p>
+        <img
+            :src="carFrameInfo.img"
+            :alt="carFrameInfo.name"
+            class="w-full mb-10" />
+      </div>
+      <h2
+        v-if="carFrameInfo.content" 
+        class="text-center text-3xl font-semibold mb-5">
+        產品說明
+      </h2>
+      <div v-html="carFrameInfo.content"></div>
       <div
         v-for="(i, idx) in filterData"
         :key="idx"
@@ -128,19 +146,18 @@ export default {
   name: "multimediaDetail-id",
   data() {
     return {
-      multiMediasList: [],
-      carFrameList: [],
       carFrame,
       filterData: [],
-      breadcrumb: ""
+      breadcrumb: "",
+      multiMediasList: [],
+      carFrameInfo: []
     };
   },
   mounted() {
-    // console.log(this.$route.query.img);
     this.filterData = this.carFrame.filter(
       item => item.img == this.$route.query.img
     );
-    this.breadcrumb = this.filterData[0].bland;
+    this.breadcrumb = this.carFrameInfo.name;
     this.getMultiMedias();
     this.getCarFrame();
   },
@@ -154,10 +171,12 @@ export default {
       })
     },
     getCarFrame() {
-      this.$http.get('https://admin.meimai.com.tw/api/carframe/' + this.$route.query.img).then((response) => {
+      this.$http.get('https://admin.meimai.com.tw/api/carframe/' + this.$route.query.id).then((response) => {
         let result = response.data.result;
         if (result) {
-          this.carFrameList = result
+          this.carFrameInfo = result
+          // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css 
+          this.carFrameInfo.content = this.carFrameInfo.content.replaceAll('<img', '<img class="mx-auto"');
         }
       })
     }
