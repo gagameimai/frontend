@@ -101,7 +101,7 @@
                 <fa
                   class="text-yellow-400 mr-3"
                   :icon="['fas', 'arrow-alt-circle-right']"
-                /><i>{{ carFrame.name}}</i>
+                /><i>{{ carFrame.brand_name }} {{ carFrame.car_name }} {{ carFrame.name }}</i>
               </h3>
               <p class="text-xl flex items-center">
                 <span class="mr-2">{{ carFrame.year_start }} ~ {{ carFrame.year_end }}</span>
