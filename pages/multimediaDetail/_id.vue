@@ -21,6 +21,7 @@
             :src="multiMediasInfo.img"
             :alt="multiMediasInfo.name"
             class="w-full mb-10" />
+<<<<<<< HEAD
       </div>
       <div v-html="multiMediasInfo.content"></div>
       <div
@@ -226,7 +227,10 @@
           />
         </div>
         <!---->
+=======
+>>>>>>> develop
       </div>
+      <div v-html="multiMediasInfo.content"></div>
     </div>
   </section>
 </template>
@@ -256,8 +260,14 @@ export default {
         let result = response.data.result;
         if (result) {
           this.multiMediasInfo = result
+<<<<<<< HEAD
           // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css 
           this.multiMediasInfo.content = this.multiMediasInfo.content.replaceAll('<img', '<img class="mx-auto"');
+=======
+          // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css
+          this.multiMediasInfo.content = this.multiMediasInfo.content.replaceAll('<img', '<img class="mx-auto"');
+          this.multiMediasInfo.content = this.multiMediasInfo.content.replaceAll('<table', '<table class="mx-auto"');
+>>>>>>> develop
         }
       })
     }
