@@ -15,7 +15,7 @@
     <div class="container mx-auto px-5 py-20">
       <div class="max-w-5xl mx-auto text-center">
         <h2 class="text-center text-2xl lg:text-3xl font-semibold mb-5">
-          {{ carFrameInfo.name }}
+          {{ carFrameInfo.brand_name }} {{ carFrameInfo.car_name }}{{ carFrameInfo.name }}
         </h2>
         <p class="text-xl font-medium mb-5">
           年份 / {{ carFrameInfo.year_start }}~{{ carFrameInfo.year_end }} 、 尺寸 / {{ carFrameInfo.size }}吋
@@ -26,7 +26,7 @@
             class="w-full mb-10" />
       </div>
       <h2
-        v-if="carFrameInfo.content" 
+        v-if="carFrameInfo.content"
         class="text-center text-3xl font-semibold mb-5">
         產品說明
       </h2>
@@ -175,7 +175,7 @@ export default {
         let result = response.data.result;
         if (result) {
           this.carFrameInfo = result
-          // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css 
+          // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css
           this.carFrameInfo.content = this.carFrameInfo.content.replaceAll('<img', '<img class="mx-auto"');
         }
       })
