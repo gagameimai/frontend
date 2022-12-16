@@ -24,125 +24,6 @@
             class="w-full mb-10" />
       </div>
       <div v-html="blindSpotInfo.content"></div>
-      <div
-        v-for="(i, idx) in filterData"
-        :key="idx"
-        class="max-w-5xl mx-auto text-center"
-      >
-        <!---->
-        <div>
-          <h2 class="text-center text-2xl lg:text-3xl font-semibold mb-5">
-            {{ i.name }}
-          </h2>
-          <p class="mb-5">{{ i.desc }}</p>
-          <img
-            :src="require(`@/assets/img/blindSpot/${i.img}`)"
-            :alt="i.name"
-            class="w-full mb-10"
-          />
-        </div>
-        <!---->
-        <div class="mb-20">
-          <h2 class="text-center text-2xl lg:text-3xl font-semibold mb-10">
-            產品規格
-          </h2>
-          <div class="md:grid grid-cols-2">
-            <div class="col-span-1 md:border-r">
-              <div class="px-5">
-                <ul class="text-left">
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />工作頻率：{{ i.frequency }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />發射功率：{{ i.watt }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />探測範圍：{{ i.detectRange }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />速度範圍：{{ i.speedRange }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />速度準確值：{{ i.accurate }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />啟動方式：{{ i.startup }}
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-span-1">
-              <div class="px-5">
-                <ul class="text-left">
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />
-                    探測距離：<span
-                      v-for="(d, index) in i.distance"
-                      :key="index"
-                      >{{ d }}</span
-                    >
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />工作電壓：{{ i.voltage }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />防水等級：{{ i.IPS }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />工作電流：{{ i.ampere }}
-                  </li>
-                  <li class="py-1">
-                    <fa
-                      class="mr-3"
-                      :icon="['fas', 'arrow-alt-circle-right']"
-                    />工作溫度：{{ i.tempture }}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!---->
-        <div class="mb-20">
-          <img
-            v-for="(img, ix) in i.imgs"
-            :key="ix"
-            class="w-full"
-            :src="require(`@/assets/img/blindSpot/${img}`)"
-            alt=""
-          />
-        </div>
-      </div>
     </div>
     <!---->
     <div class="container mx-auto px-5 py-10 md:py-20">
@@ -205,7 +86,7 @@ export default {
     this.filterData = this.blindSpots.prods.filter(
       item => item.id == this.$route.query.id
     );
-    
+
     this.getBlindSpot();
     this.breadcrumb = this.blindSpotInfo.name;
   },
@@ -215,8 +96,9 @@ export default {
         let result = response.data.result;
         if (result) {
           this.blindSpotInfo = result;
-          // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css 
-          this.blindSpotInfo.content = this.blindSpotInfo.content.replaceAll('<img', '<img class="mx-auto"');
+          // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css
+          this.blindSpotInfo.content = this.blindSpotInfo.content.replaceAll('<img', '<img class="mx-auto" style="hight: auto"');
+          this.blindSpotInfo.content = this.blindSpotInfo.content.replaceAll('<table', '<table class="mx-auto"');
           this.brandList = result.car_brand;
           if (this.selectBrandValue) {
             this.brandChange();
