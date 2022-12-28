@@ -8,7 +8,7 @@
         <span>首頁 / </span>
         <span>安卓車框</span>
         <span> / </span>
-        <span>{{ breadcrumb }}</span>
+        <span>{{ carFrameInfo.brand_name }}</span>
       </p>
     </div>
     <!---->
@@ -141,23 +141,15 @@
 </template>
 
 <script>
-import carFrame from "~/static/carFrame.js";
 export default {
   name: "multimediaDetail-id",
   data() {
     return {
-      carFrame,
-      filterData: [],
-      breadcrumb: "",
       multiMediasList: [],
       carFrameInfo: []
     };
   },
   mounted() {
-    this.filterData = this.carFrame.filter(
-      item => item.img == this.$route.query.img
-    );
-    this.breadcrumb = this.carFrameInfo.name;
     this.getMultiMedias();
     this.getCarFrame();
   },

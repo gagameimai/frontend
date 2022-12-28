@@ -8,7 +8,7 @@
         <span> / </span>
         <span>車用配件</span>
         <span> / </span>
-        <span>{{ breadcrumb }}</span>
+        <span>{{ fittingInfo.name }}</span>
       </p>
     </div>
     <!---->
@@ -29,22 +29,14 @@
 </template>
 
 <script>
-import fittings from "~/static/fittings.js";
 export default {
   name: "fittingDetail-id",
   data() {
     return {
-      fittings,
-      filterData: [],
-      breadcrumb: "",
       fittingInfo: {}
     };
   },
   mounted() {
-    this.filterData = this.fittings.filter(
-      item => item.id == this.$route.query.id
-    );
-    this.breadcrumb = this.filterData[0].name;
     this.getFitting();
   },
   methods: {

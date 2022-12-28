@@ -8,7 +8,7 @@
         <span>首頁 / </span>
         <span>盲點偵測</span>
         <span> / </span>
-        <span>{{ breadcrumb }}</span>
+        <span>{{ blindSpotInfo.name }}</span>
       </p>
     </div>
     <!---->
@@ -70,11 +70,6 @@ export default {
   name: "blindSpotDetail-id",
   data() {
     return {
-      // 未來刪除
-      blindSpots,
-      filterData: [],
-
-      breadcrumb: "",
       blindSpotInfo: {},
       selectBrandValue: { "id": 1, "name": "AUDI" },
       brandList: [],
@@ -82,13 +77,7 @@ export default {
     };
   },
   mounted() {
-    // 未來刪除
-    this.filterData = this.blindSpots.prods.filter(
-      item => item.id == this.$route.query.id
-    );
-
     this.getBlindSpot();
-    this.breadcrumb = this.blindSpotInfo.name;
   },
   methods: {
     getBlindSpot() {

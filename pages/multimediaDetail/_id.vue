@@ -8,7 +8,7 @@
         <span> / </span>
         <span>安卓多媒體機</span>
         <span> / </span>
-        <span>{{ breadcrumb }}</span>
+        <span>{{ multiMediasInfo.name }}</span>
       </p>
     </div>
     <div class="container mx-auto px-5 py-20">
@@ -28,22 +28,14 @@
 </template>
 
 <script>
-import multimedias from "~/static/multimedias.js";
 export default {
   name: "multimediaDetail-id",
   data() {
     return {
-      multiMediasInfo: {},
-      multimedias,
-      filterData: [],
-      breadcrumb: ""
+      multiMediasInfo: {}
     };
   },
   mounted() {
-    this.filterData = this.multimedias.filter(
-      item => item.id == this.$route.query.id
-    );
-    this.breadcrumb = this.filterData[0].mode;
     this.getMultiMedias();
   },
   methods: {
