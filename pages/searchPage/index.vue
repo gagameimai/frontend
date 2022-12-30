@@ -19,7 +19,7 @@
                 class="w-full h-12 p-3 text-black"
               >
                 <option selected disabled>選擇汽車品牌</option>
-                <option 
+                <option
                   v-for="(brand, index) in brandList"
                   :key="index"
                   :value="brand.id">
@@ -35,7 +35,7 @@
                 class="w-full h-12 p-3 text-black"
               >
                 <option selected disabled>選擇車款</option>
-                <option 
+                <option
                   v-for="(type, index) in modelList"
                   :key="index"
                   :value="type.id">
@@ -51,7 +51,7 @@
                 class="w-full h-12 p-3 text-black"
               >
                 <option selected disabled>選擇年份</option>
-                <option 
+                <option
                   v-for="(year, index) in yearList"
                   :key="index">
                   {{ year }}
@@ -121,7 +121,7 @@
         </h2>
         <div class="md:grid md:grid-cols-3 xl:grid-cols-4 gap-8">
           <div
-            v-for="(i, idx) in multimedias"
+            v-for="(carMedia, idx) in carMediaList"
             :key="idx"
             class="col-span-1 py-5"
           >
@@ -129,21 +129,21 @@
               :to="{
                 name: 'multimediaDetail-id',
                 query: {
-                  id: i.id
+                  id: carMedia.id
                 }
               }"
             >
               <img
                 class="mb-3"
-                :src="require(`@/assets/img/multimedia/${i.img}`)"
-                :alt="i.name"
+                :src="carMedia.img"
+                :alt="carMedia.name"
               />
               <hr class="mb-2" />
               <h3 class="text-xl font-semibold">
                 <fa
                   class="text-yellow-400 mr-3"
                   :icon="['fas', 'arrow-alt-circle-right']"
-                /><i>{{ i.name }}</i>
+                /><i>{{ carMedia.name }}</i>
               </h3>
             </nuxt-link>
           </div>
@@ -153,9 +153,27 @@
       <div class="py-10 md:py-14 lg:py-20">
         <h2 class="text-2xl lg:text-3xl font-semibold py-5">盲點偵測</h2>
         <div class="md:grid md:grid-cols-3 xl:grid-cols-4 gap-8">
-          <div class="col-span-1 py-5">
-            <nuxt-link to="/blindSpot">
-              <img src="@/assets/img/blindSpot/blindSpot-1.png" alt="" />
+          <div v-for="(carBlindSpot, idx) in carBlindSpotList" :key="idx" class="col-span-1 py-5">
+            <nuxt-link
+              :to="{
+              name: 'carBlindSpotDetail-id',
+              query: {
+                id: carBlindSpot.id
+              }
+              }"
+            >
+              <img
+                class="mb-3"
+                :src="carBlindSpot.img"
+                :alt="carBlindSpot.name"
+              />
+              <hr class="mb-2" />
+              <h3 class="text-xl font-semibold">
+                <fa
+                  class="text-yellow-400 mr-3"
+                  :icon="['fas', 'arrow-alt-circle-right']"
+                /><i>{{ carBlindSpot.name }}</i>
+              </h3>
             </nuxt-link>
           </div>
         </div>
@@ -164,26 +182,26 @@
       <div class="py-10 lg:py-14">
         <h2 class="text-2xl lg:text-3xl font-semibold py-5">車用配件</h2>
         <div class="md:grid md:grid-cols-3 xl:grid-cols-4 gap-8">
-          <div v-for="(i, idx) in fittings" :key="idx" class="col-span-1 py-5">
+          <div v-for="(carFitting, idx) in carFittingList" :key="idx" class="col-span-1 py-5">
             <nuxt-link
               :to="{
                 name: 'fittingDetail-id',
                 query: {
-                  id: i.id
+                  id: carFitting.id
                 }
               }"
             >
               <img
                 class="mb-3"
-                :src="require(`@/assets/img/fitting/${i.img}`)"
-                :alt="i.name"
+                :src="carFitting.img"
+                :alt="carFitting.name"
               />
               <hr class="mb-2" />
               <h3 class="text-xl font-semibold">
                 <fa
                   class="text-yellow-400 mr-3"
                   :icon="['fas', 'arrow-alt-circle-right']"
-                /><i>{{ i.name }}</i>
+                /><i>{{ carFitting.name }}</i>
               </h3>
             </nuxt-link>
           </div>
@@ -260,7 +278,10 @@ export default {
       currentPage: 1,
       filterData: [],
       fiterCarFrames: [],
-      carFrameList: []
+      carFrameList: [],
+      carMediaList: [],
+      carBlindSpotList: [],
+      carFittingList: []
     };
   },
   mounted: async function() {
@@ -482,6 +503,9 @@ export default {
       // }
 
       this.carFrameList = [];
+      this.carMediaList = [];
+      this.carBlindSpotList = [];
+      this.carFittingList = [];
 
       let params = {
         car_brand_id: this.blandInputValue,
@@ -494,6 +518,15 @@ export default {
           if (result) {
             if (result.car_frame.length > 0) {
               this.carFrameList = result.car_frame
+            }
+            if (result.car_media.length > 0) {
+              this.carMediaList = result.car_media
+            }
+            if (result.car_blind_spot.length > 0) {
+              this.carBlindSpotList = result.car_blind_spot
+            }
+            if (result.car_fitting.length > 0) {
+              this.carFittingList = result.car_fitting
             }
           }
       });
