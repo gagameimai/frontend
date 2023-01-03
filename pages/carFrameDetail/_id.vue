@@ -168,7 +168,7 @@ export default {
         if (result) {
           this.carFrameInfo = result
           // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css
-          this.carFrameInfo.content = this.carFrameInfo.content.replaceAll('<img', '<img class="mx-auto"');
+          this.carFrameInfo.content = this.carFrameInfo.content.replaceAll('<img', '<img class="mx-auto" style="hight: auto"');
         }
       })
     }
