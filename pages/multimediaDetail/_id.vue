@@ -3,9 +3,9 @@
     <div class="hidden img_box banner md:flex justify-center items-center">
       <p class="text-white text-2xl font-semibold">
         <span class="hover:text-yellow-400 transition-all duration-300"
-          ><nuxt-link to="/">首頁</nuxt-link></span
+          ></span
         >
-        <span> / </span>
+        <span>首頁 / </span>
         <span>安卓多媒體機</span>
         <span> / </span>
         <span>{{ multiMediasInfo.name }}</span>

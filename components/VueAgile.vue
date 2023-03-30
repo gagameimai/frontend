@@ -32,7 +32,7 @@ export default {
     };
   },
   mounted() {
-    this.getbanner();
+    this.$nextTick(() => this.getbanner());
   },
   methods: {
     getbanner() {

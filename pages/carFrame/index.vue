@@ -97,7 +97,7 @@
             <p class="text-xl flex items-center">
               <span class="mr-2">{{ carFrame.year_start }}~{{ carFrame.year_end }}</span>
               <span
-                class="text-sm font-medium border rounded-sm border-yellow-400 px-1"
+                class="text-md font-medium border rounded-sm border-yellow-400 px-1"
                 >{{ carFrame.size }}吋</span
               >
             </p>
@@ -143,7 +143,7 @@ export default {
             this.modelInputValue = lsModel;
             this.yearInputValue = lsYear;
           }
-          else { 
+          else {
             // 指定載入TOYOTA車框
             this.brandList.forEach(el => {
               if (el.name == 'TOYOTA') {

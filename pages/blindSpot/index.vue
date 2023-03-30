@@ -1,13 +1,13 @@
 <template>
   <section>
     <div class="img_box banner flex justify-center items-center">
-      <p class="text-white text-2xl font-semibold">
-        <span class="hover:text-yellow-400 transition-all duration-300"
-          ><nuxt-link to="/">首頁</nuxt-link></span
-        >
-        <span> / </span>
-        <span>盲點偵測</span>
-      </p>
+      <div class="text-white text-2xl font-semibold flex">
+        <div class="hover:text-yellow-400 transition-all duration-300">
+          <nuxt-link to="/">首頁</nuxt-link>
+        </div>
+        <div> / </div>
+        <h1 class="text-white text-2xl font-semibold">盲點偵測</h1>
+      </div>
     </div>
     <!-- -->
     <div class="container mx-auto px-5 py-10 md:py-20">
