@@ -1,5 +1,5 @@
 <template>
-  <section id="vue_agile">
+  <section id="vue_agile" :class="[ $vssWidth < 1024 ? 'mt-12' : '']">
     <client-only placeholder="Loading...">
       <agile v-if="bannerList.length != 0" :autoplay="true">
         <div v-for="(banner, index) in bannerList"

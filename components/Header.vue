@@ -6,7 +6,7 @@
         <!-- logo -->
         <div>
           <nuxt-link to="/"
-            ><img class="w-40" src="~/assets/img/Header/meimai.svg" alt=""
+            ><img class="w-20" src="~/assets/img/Header/meimai.png" alt=""
           /></nuxt-link>
         </div>
         <!-- link -->
@@ -46,7 +46,7 @@
       <div class="p-3 flex justify-between">
         <div>
           <nuxt-link to="/"
-            ><img class="w-32" src="~/assets/img/Header/meimai.svg" alt=""
+            ><img class="w-32" src="~/assets/img/Header/meimai.png" alt=""
           /></nuxt-link>
         </div>
         <button @click="openHamburger()">
