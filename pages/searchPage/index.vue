@@ -249,20 +249,14 @@
 
 <script>
 import carFrame from "~/static/carFrame.js";
-import fittings from "~/static/fittings.js";
-import multimedias from "~/static/multimedias.js";
-// import years from "~/static/years.js";
 
 export default {
   name: "carFrame",
   data() {
     return {
       carFrame,
-      fittings,
-      multimedias,
       breadcrumbBlands: this.$route.query.bland,
       breadcrumbModel: this.$route.query.model,
-      blands: [],
       brandList: [],
       car: [],
       types: [],
@@ -341,9 +335,6 @@ export default {
         );
       });
     }
-    //
-    const newBlands = this.carFrame.map(item => item.bland);
-    this.blands = [...new Set(newBlands)];
     //
     let newPage = Math.ceil(this.carFrame.length / 20);
     this.totalPage = newPage;

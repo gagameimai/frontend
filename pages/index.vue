@@ -29,7 +29,7 @@
             class="w-full h-12 p-3 text-black border rounded-md bg-white"
           >
             <option selected disabled>選擇車款</option>
-            <option 
+            <option
               v-for="(model, index) in modelList"
               :key="index"
               :value="model.id">
@@ -254,7 +254,6 @@ export default {
   data() {
     return {
       carFrame,
-      blands: [],
       brandList: [],
       car: [],
       modelList: [],
@@ -275,7 +274,6 @@ export default {
   mounted() {
     //
     const newBlands = this.carFrame.map(item => item.bland);
-    this.blands = [...new Set(newBlands)];
     // 收集 option value
 
     // 取得下拉選單所有資料

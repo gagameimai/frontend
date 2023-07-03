@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import blindSpots from "~/static/blindSpots.js";// 未來刪除
 export default {
   name: "blindSpotDetail-id",
   data() {

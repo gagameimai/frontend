@@ -46,7 +46,7 @@
       <div class="p-3 flex justify-between">
         <div>
           <nuxt-link to="/"
-            ><img class="w-32" src="~/assets/img/Header/meimai.png" alt=""
+            ><img class="w-10" src="~/assets/img/Header/meimai.png" alt=""
           /></nuxt-link>
         </div>
         <button @click="openHamburger()">
