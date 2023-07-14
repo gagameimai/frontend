@@ -18,7 +18,7 @@
                 @change="brandChange"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected value="">選擇汽車品牌</option>
+                <option selected value="" disabled>選擇汽車品牌</option>
                 <option
                   v-for="(brand, index) in brandList"
                   :key="index"
@@ -34,13 +34,14 @@
                 @change="modelChange"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected value="">選擇車款</option>
+                <option selected value="" disabled>選擇車款</option>
                 <option
                   v-for="(model, index) in modelList"
                   :key="index"
                   :value="model.id">
                   {{ model.name }}
                 </option>
+                <option value="all">所有車款</option>
               </select>
             </div>
             <!---->
@@ -49,12 +50,13 @@
                 v-model="yearInputValue"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected value="">選擇年份</option>
+                <option selected value="" disabled>選擇年份</option>
                 <option
                   v-for="(year, index) in yearList"
                   :key="index">
                   {{ year }}
                 </option>
+                <option value="all">所有年份</option>
               </select>
             </div>
             <!---->
@@ -166,8 +168,8 @@ export default {
     getCarFrame() {
       let params = {
         car_brand_id: this.brandInputValue,
-        car_id: this.modelInputValue,
-        year: this.yearInputValue
+        car_id: this.modelInputValue == 'all' ? '' : this.modelInputValue,
+        year: this.yearInputValue == 'all' ? '' : this.yearInputValue
       }
 
       this.$http.get('https://admin.meimai.com.tw/api/carframe', {params}).then((response) => {
@@ -195,7 +197,7 @@ export default {
       this.yearList = [];
       let tempStart = 0,
           tempEnd = 0;
-      if(this.modelInputValue == '') {
+      if(this.modelInputValue == '' || this.modelInputValue == 'all') {
         this.modelList.forEach((el, index) => {
           if (index == 0) {
             tempStart = el.year_start;

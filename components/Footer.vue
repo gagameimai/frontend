@@ -6,8 +6,7 @@
           <div class="col-span-4">
             <div>
               <img
-                class="w-2/5 mb-5"
-                src="~/assets/img/Header/meimai.png"
+                src="~/assets/img/Header/meimai_footer.png"
                 alt="meimai"
               />
               <p class="text-xl font-medium mb-2">
