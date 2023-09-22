@@ -26,50 +26,69 @@
             class="w-full mb-10" />
       </div>
       <h2
+        v-if="carFrameInfo.img3"
+        class="text-center text-3xl font-semibold mb-5">
+        車框概觀
+      </h2>
+      <div
+        v-if="carFrameInfo.img3"
+        class="max-w-5xl mx-auto text-center">
+        <img
+            :src="carFrameInfo.img3"
+            class="w-full mb-10" />
+      </div>
+      <h2
+        v-if="carFrameInfo.img1"
+        class="text-center text-3xl font-semibold mb-5">
+        車框配件
+      </h2>
+      <div
+        v-if="carFrameInfo.img1 && !Array.isArray(carFrameInfo.img1)"
+        class="max-w-5xl mx-auto text-center">
+        <img
+            :src="carFrameInfo.img1"
+            class="w-full mb-10" />
+      </div>
+      <span v-if="carFrameInfo.img1 && Array.isArray(carFrameInfo.img1)">
+        <div
+          v-for="image in carFrameInfo.img1"
+          :key="image"
+          class="max-w-5xl mx-auto text-center">
+          <img
+              v-if="image"
+              :src="image"
+              class="w-full mb-10" />
+        </div>
+      </span>
+      <h2
+        v-if="carFrameInfo.img2"
+        class="text-center text-3xl font-semibold mb-5">
+        實際安裝
+      </h2>
+      <div
+        v-if="carFrameInfo.img2 && Array.isArray(carFrameInfo.img2)"
+        class="max-w-5xl mx-auto text-center">
+        <img
+            :src="carFrameInfo.img2"
+            class="w-full mb-10" />
+      </div>
+      <span v-if="carFrameInfo.img2 && Array.isArray(carFrameInfo.img2)">
+        <div
+          v-for="image in carFrameInfo.img2"
+          :key="image"
+          class="max-w-5xl mx-auto text-center">
+          <img
+              v-if="image"
+              :src="image"
+              class="w-full mb-10" />
+        </div>
+      </span>
+      <h2
         v-if="carFrameInfo.content"
         class="text-center text-3xl font-semibold mb-5">
         產品說明
       </h2>
       <div v-html="carFrameInfo.content"></div>
-      <div
-        v-for="(i, idx) in filterData"
-        :key="idx"
-        class="max-w-5xl mx-auto text-center"
-      >
-        <!---->
-        <div>
-          <!---->
-          <div class="mb-20">
-            <h2 class="text-center text-3xl font-semibold mb-5">
-              {{ i.bland }} - {{ i.type }}
-            </h2>
-            <p class="text-xl font-medium mb-5">
-              年份 / {{ i.range }} 、 尺寸 / {{ i.size }}
-            </p>
-            <img
-              :src="require(`@/assets/img/carFrame/${i.img}.png`)"
-              :alt="i.bland"
-              class="w-full mb-10"
-            />
-          </div>
-          <!---->
-          <div v-if="i.attachment.imgs.length > 0" class="mb-20">
-            <h2 class="text-center text-3xl font-semibold mb-5">
-              產品說明
-            </h2>
-            <p class="text-xl font-medium mb-5">
-              {{ i.attachment.desc }}
-            </p>
-            <img
-              v-for="(img, index) in i.attachment.imgs"
-              :key="index"
-              :src="require(`@/assets/img/carFrame/${img}.png`)"
-              class="w-full"
-            />
-          </div>
-          <!---->
-        </div>
-      </div>
     </div>
     <!---->
     <div class="container mx-auto px-5 py-10 md:py-20">
@@ -166,9 +185,10 @@ export default {
       this.$http.get('https://admin.meimai.com.tw/api/carframe/' + this.$route.query.id).then((response) => {
         let result = response.data.result;
         if (result) {
-          this.carFrameInfo = result
+          this.carFrameInfo = result;
           // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css
           this.carFrameInfo.content = this.carFrameInfo.content.replaceAll('<img', '<img class="mx-auto" style="hight: auto"');
+
         }
       })
     }
