@@ -38,17 +38,10 @@
             class="w-full mb-10" />
       </div>
       <h2
-        v-if="carFrameInfo.img1"
+        v-if="carFrameInfo.img1 && carFrameInfo.img1[0] != ''"
         class="text-center text-3xl font-semibold mb-5">
         車框配件
       </h2>
-      <div
-        v-if="carFrameInfo.img1 && !Array.isArray(carFrameInfo.img1)"
-        class="max-w-5xl mx-auto text-center">
-        <img
-            :src="carFrameInfo.img1"
-            class="w-full mb-10" />
-      </div>
       <span v-if="carFrameInfo.img1 && Array.isArray(carFrameInfo.img1)">
         <div
           v-for="image in carFrameInfo.img1"
@@ -61,17 +54,10 @@
         </div>
       </span>
       <h2
-        v-if="carFrameInfo.img2"
+        v-if="carFrameInfo.img2 && carFrameInfo.img2[0] != ''"
         class="text-center text-3xl font-semibold mb-5">
         實際安裝
       </h2>
-      <div
-        v-if="carFrameInfo.img2 && Array.isArray(carFrameInfo.img2)"
-        class="max-w-5xl mx-auto text-center">
-        <img
-            :src="carFrameInfo.img2"
-            class="w-full mb-10" />
-      </div>
       <span v-if="carFrameInfo.img2 && Array.isArray(carFrameInfo.img2)">
         <div
           v-for="image in carFrameInfo.img2"

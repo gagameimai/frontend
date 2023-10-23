@@ -93,7 +93,7 @@
             >
               <img
                 class="mb-3"
-                :src="carFrame.img"
+                :src="JSON.parse(carFrame.img)[0]"
                 :alt="carFrame.name"
               />
               <hr class="mb-2" />
