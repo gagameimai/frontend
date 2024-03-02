@@ -15,10 +15,10 @@
             <div class="col-span-3 mb-3 lg:mb-0">
               <select
                 v-model="brandInputValue"
-                @change="brandChange"
+                @change="brandChange(true)"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected value="" disabled>選擇汽車品牌</option>
+                <option selected value="">選擇汽車品牌</option>
                 <option
                   v-for="(brand, index) in brandList"
                   :key="index"
@@ -34,14 +34,13 @@
                 @change="modelChange"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected value="" disabled>選擇車款</option>
+                <option selected value="">選擇車款</option>
                 <option
                   v-for="(model, index) in modelList"
                   :key="index"
                   :value="model.id">
                   {{ model.name }}
                 </option>
-                <option value="all">所有車款</option>
               </select>
             </div>
             <!---->
@@ -50,13 +49,12 @@
                 v-model="yearInputValue"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected value="" disabled>選擇年份</option>
+                <option selected value="">選擇年份</option>
                 <option
                   v-for="(year, index) in yearList"
                   :key="index">
                   {{ year }}
                 </option>
-                <option value="all">所有年份</option>
               </select>
             </div>
             <!---->
@@ -132,14 +130,14 @@ export default {
   },
   methods: {
     getListData() {
-      this.$http.get('https://admin.meimai.com.tw/api/car').then((response) => {
+      this.$http.get('https://admin.meimai.com.tw/api/car').then(async(response) => {
         let carBrand = response.data.car_brand,
             car = response.data.car;
         if (carBrand) {
           this.brandList = carBrand;
-          let lsBrand = localStorage.getItem("LSBrand"),
-              lsModel = localStorage.getItem("LSModel"),
-              lsYear = localStorage.getItem("LSYear");
+          let lsBrand = this.$route.query.brand,
+              lsModel = this.$route.query.model,
+              lsYear = this.$route.query.year
           if (lsBrand) {
             this.brandInputValue = lsBrand;
             this.modelInputValue = lsModel;
@@ -156,7 +154,7 @@ export default {
               }
             });
           }
-          this.getCarFrame();
+          await this.getCarFrame();
         }
         if (car) {
           this.car = car;
@@ -166,32 +164,40 @@ export default {
       })
     },
     getCarFrame() {
-      let params = {
-        car_brand_id: this.brandInputValue,
-        car_id: this.modelInputValue == 'all' ? '' : this.modelInputValue,
-        year: this.yearInputValue == 'all' ? '' : this.yearInputValue
-      }
-
-      this.$http.get('https://admin.meimai.com.tw/api/carframe', {params}).then((response) => {
-        let result = response.data.result;
-        if (result) {
-          this.carFrameList = result;
-          // store LSBrand、LSModel、LSYear to localStorage
-          localStorage.setItem("LSBrand", this.brandInputValue);
-          localStorage.setItem("LSModel", this.modelInputValue);
-          localStorage.setItem("LSYear", this.yearInputValue);
+      return new Promise((resolve, reject) => {
+        let params = {
+          car_brand_id: this.brandInputValue,
+          car_id: this.modelInputValue == 'all' ? '' : this.modelInputValue,
+          year: this.yearInputValue == 'all' ? '' : this.yearInputValue
         }
+
+        this.$http.get('https://admin.meimai.com.tw/api/carframe', {params}).then((response) => {
+          let result = response.data.result;
+          if (result) {
+
+
+            this.carFrameList = result;
+            this.$router.push({ path: '/carFrame', query: { brand: this.brandInputValue, model: this.modelInputValue, year: this.yearInputValue }});
+            // store LSBrand、LSModel、LSYear to localStorage 以前使用
+            // localStorage.setItem("LSBrand", this.brandInputValue);
+            // localStorage.setItem("LSModel", this.modelInputValue);
+            // localStorage.setItem("LSYear", this.yearInputValue);
+            resolve();
+          }
+        })
       })
     },
-    brandChange() {
+    brandChange(isChange) {
       this.modelList = [];
       this.car.forEach(el => {
         if(this.brandInputValue == el.car_brand_id) {
           this.modelList.push(el);
         }
       });
-      this.modelInputValue = '';
-      this.yearInputValue = '';
+      if (isChange) {
+        this.modelInputValue = '';
+        this.yearInputValue = '';
+      }
     },
     modelChange() {
       this.yearList = [];

@@ -14,11 +14,11 @@
             <!---->
             <div class="col-span-3 mb-3 lg:mb-0">
               <select
-                v-model="blandInputValue"
-                @change="brandChange"
+                v-model="brandInputValue"
+                @change="brandChange(true)"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected disabled>選擇汽車品牌</option>
+                <option value="" selected>選擇汽車品牌</option>
                 <option
                   v-for="(brand, index) in brandList"
                   :key="index"
@@ -34,14 +34,13 @@
                 @change="modelChange"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected disabled>選擇車款</option>
+                <option value="" selected>選擇車款</option>
                 <option
                   v-for="(type, index) in modelList"
                   :key="index"
                   :value="type.id">
                   {{ type.name }}
                 </option>
-                <option value="all">所有車款</option>
               </select>
             </div>
             <!---->
@@ -50,13 +49,12 @@
                 v-model="yearInputValue"
                 class="w-full h-12 p-3 text-black"
               >
-                <option selected disabled>選擇年份</option>
+                <option value="" selected>選擇年份</option>
                 <option
                   v-for="(year, index) in yearList"
                   :key="index">
                   {{ year }}
                 </option>
-                <option value="all">所有年份</option>
               </select>
             </div>
             <!---->
@@ -255,7 +253,7 @@ export default {
   data() {
     return {
       carFrame,
-      breadcrumbBlands: this.$route.query.bland,
+      breadcrumbBlands: this.$route.query.brand,
       breadcrumbModel: this.$route.query.model,
       brandList: [],
       car: [],
@@ -263,9 +261,9 @@ export default {
       modelList: [],
       years: [],
       yearList: [],
-      blandInputValue: "選擇汽車品牌",
-      modelInputValue: "選擇車款",
-      yearInputValue: "選擇年份",
+      brandInputValue: "",
+      modelInputValue: "",
+      yearInputValue: "",
       // typeSelect: true,
       // yearSelect: true,
       totalPage: 5,
@@ -281,60 +279,18 @@ export default {
   mounted: async function() {
     // 取得下拉選單所有資料
     await this.getListData();
-    // 若有 localStorage 就用，不然就用 route.query 的值
-    if (localStorage.getItem("brand")) {
-      this.blandInputValue = localStorage.getItem("brand");
-      this.modelInputValue = localStorage.getItem("model");
-      this.yearInputValue = localStorage.getItem("year");
-      this.brandChange(true);
-      this.modelChange();
-      this.search();
-      // 顯示車款
-      const newTypeArray = this.carFrame.filter(
-        item => item.bland === this.blandInputValue
-      );
-      const typeArr = [];
-      newTypeArray.forEach(item => {
-        typeArr.push(...item.model);
-      });
-      this.types = [...new Set(typeArr)];
-      // 顯示年份
-      const newYearArray = this.carFrame.filter(
-        item =>
-          item.bland === this.blandInputValue &&
-          item.type.includes(this.modelInputValue)
-      );
-      const yearArr = [];
-      newYearArray.forEach(item => {
-        yearArr.push(...item.year);
-      });
-      this.years = [...new Set(yearArr)];
-    } else {
-      this.blandInputValue = this.$route.query.bland;
-      this.modelInputValue = this.$route.query.model;
-      this.yearInputValue = this.$route.query.year;
+    let lsBrand = this.$route.query.brand,
+        lsModel = this.$route.query.model,
+        lsYear = this.$route.query.year
+    if (lsBrand) {
+      this.brandInputValue = lsBrand;
+      this.modelInputValue = lsModel;
+      this.yearInputValue = lsYear;
     }
-    //
-    if (this.modelInputValue == "all" && this.yearInputValue == "all") {
-      this.fiterCarFrames = this.carFrame.filter(
-        item => item.bland == this.blandInputValue
-      );
-    } else if (this.yearInputValue == "all") {
-      this.fiterCarFrames = this.carFrame.filter(item => {
-        return (
-          item.bland == this.blandInputValue &&
-          item.model.includes(this.modelInputValue)
-        );
-      });
-    } else {
-      this.fiterCarFrames = this.carFrame.filter(item => {
-        return (
-          item.bland == this.blandInputValue &&
-          item.model.includes(this.modelInputValue) &&
-          item.year.includes(this.yearInputValue * 1)
-        );
-      });
-    }
+
+    this.brandChange();
+    this.modelChange();
+    this.search();
     //
     let newPage = Math.ceil(this.carFrame.length / 20);
     this.totalPage = newPage;
@@ -378,17 +334,17 @@ export default {
       );
       window.scrollTo(0, 0);
     },
-    brandChange(isMounted) {
-      if (!isMounted) {
+    brandChange(isChange) {
+      if (isChange) {
         // default setting
-        this.modelInputValue = "選擇車款";
-        this.yearInputValue = "選擇年份";
+        this.modelInputValue = "";
+        this.yearInputValue = "";
       }
       this.typeSelect = true;
       this.yearSelect = true;
       //
       const newArray = this.carFrame.filter(
-        item => item.bland === this.blandInputValue
+        item => item.brand === this.brandInputValue
       );
       const arr = [];
       newArray.forEach(item => {
@@ -397,12 +353,12 @@ export default {
       this.types = [...new Set(arr)];
       this.typeSelect = false;
 
-      this.breadcrumbBlands = this.blandInputValue;
+      this.breadcrumbBlands = this.brandInputValue;
       this.breadcrumbModel = "";
 
       this.modelList = [];
       this.car.forEach(el => {
-        if(this.blandInputValue == el.car_brand_id) {
+        if(this.brandInputValue == el.car_brand_id) {
           this.modelList.push(el);
         }
       });
@@ -410,7 +366,7 @@ export default {
     modelChange() {
       const newArray = this.carFrame.filter(
         item =>
-          item.bland === this.blandInputValue &&
+          item.brand === this.brandInputValue &&
           item.type.includes(this.modelInputValue)
       );
       const arr = [];
@@ -424,7 +380,7 @@ export default {
       this.yearList = [];
       let tempStart = 0,
           tempEnd = 0;
-      if(this.modelInputValue == 'all') {
+      if(this.modelInputValue == '') {
         this.modelList.forEach((el, index) => {
           if (index == 0) {
             tempStart = el.year_start;
@@ -460,48 +416,15 @@ export default {
       }
     },
     search() {
-      if (this.blandInputValue == "選擇汽車品牌") {
-        alert("請選擇汽車品牌");
-        return;
-      }
-      if (this.modelInputValue == "選擇車款") {
-        alert("請選擇車款");
-        return;
-      }
-      if (this.yearInputValue == "選擇年份") {
-        alert("請選擇年份");
-        return;
-      }
-      // if (this.modelInputValue == "all" && this.yearInputValue == "all") {
-      //   this.fiterCarFrames = this.carFrame.filter(
-      //     item => item.bland == this.blandInputValue
-      //   );
-      // } else if (this.yearInputValue == "all") {
-      //   this.fiterCarFrames = this.carFrame.filter(item => {
-      //     return (
-      //       item.bland == this.blandInputValue &&
-      //       item.model.includes(this.modelInputValue)
-      //     );
-      //   });
-      // } else {
-      //   this.fiterCarFrames = this.carFrame.filter(item => {
-      //     return (
-      //       item.bland == this.blandInputValue &&
-      //       item.model.includes(this.modelInputValue) &&
-      //       item.year.includes(this.yearInputValue * 1)
-      //     );
-      //   });
-      // }
-
       this.carFrameList = [];
       this.carMediaList = [];
       this.carBlindSpotList = [];
       this.carFittingList = [];
 
       let params = {
-        car_brand_id: this.blandInputValue,
-        car_id: this.modelInputValue == 'all' || !this.modelInputValue ? '' : this.modelInputValue,
-        year: this.yearInputValue == 'all' || !this.yearInputValue ? '' : this.yearInputValue,
+        car_brand_id: this.brandInputValue,
+        car_id: !this.modelInputValue ? '' : this.modelInputValue,
+        year: !this.yearInputValue ? '' : this.yearInputValue,
       }
 
       this.$http.get('https://admin.meimai.com.tw/api/search', {params}).then((response) => {
@@ -519,12 +442,19 @@ export default {
             if (result.car_fitting.length > 0) {
               this.carFittingList = result.car_fitting
             }
+            this.$router.push({
+              path: "/searchPage",
+              query: {
+                brand: this.brandInputValue,
+                model: this.modelInputValue,
+                year: this.yearInputValue
+              }
+            });
           }
       });
-      this.storeLocalStorage();
     },
     storeLocalStorage() {
-      localStorage.setItem("bland", this.blandInputValue);
+      localStorage.setItem("brand", this.brandInputValue);
       localStorage.setItem("model", this.modelInputValue);
       localStorage.setItem("year", this.yearInputValue);
     }

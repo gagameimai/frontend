@@ -13,7 +13,7 @@ export default {
       { 'http-equiv': 'X-UA-Compatible', content:'ie=edge' },
       { property: 'og:title', content: '美邁車用電子有限公司' },
       { property: 'og:description', content: '美邁車用電子有限公司' },
-      { property: 'og:image', content: 'https://www.meimai.com.tw/_nuxt/img/me99.8daef44.png',},
+      { property: 'og:image', content: 'https://admin.meimai.com.tw/storage/files/1/MultiMedia/多媒體機_ME-88_高效版_v230711.png',},
       { property: 'og:site_name', content: '美邁車用電子有限公司' },
       { property: 'og:locale', content: 'zh_TW' },
     ],
@@ -28,7 +28,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["@/assets/css/global.css"],
+  css: [
+        "@/assets/css/global.css",
+        "@/assets/css/main.scss",
+      ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [

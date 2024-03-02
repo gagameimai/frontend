@@ -109,6 +109,8 @@ export default {
 };
 </script>
 
+<style lang="scss" src="@/assets/css/main.scss" scoped />
+
 <style scoped>
 .banner {
   background-image: url(~assets/img/blindSpot/banner.png);

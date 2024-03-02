@@ -146,17 +146,32 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "multimediaDetail-id",
+  async asyncData({route}) {
+    const res = await axios.get("https://admin.meimai.com.tw/api/carframe/" + route.query.id);
+    let result = res.data.result;
+    result.name = result.name ? result.name : '';
+    return { carFrameInfo: result };
+  },
+
+  head() {
+    return {
+      title: 'MEIMAI ' + this.carFrameInfo.brand_name + this.carFrameInfo.name + ' 車框',
+      meta: [
+        { property: 'og:image', content: this.carFrameInfo.img },
+        { name: 'keywords', content: this.carFrameInfo.brand_name + this. carFrameInfo.car_name + this.carFrameInfo.name}, ]
+    }
+  },
   data() {
     return {
-      multiMediasList: [],
-      carFrameInfo: []
+      multiMediasList: []
     };
   },
   mounted() {
     this.getMultiMedias();
-    this.getCarFrame();
+    // this.getCarFrame();
   },
   methods: {
     getMultiMedias() {
@@ -172,15 +187,14 @@ export default {
         let result = response.data.result;
         if (result) {
           this.carFrameInfo = result;
-          // 後端傳來的圖片置中效果無效，所以透過前端補上Tailwind 置中 css
-          this.carFrameInfo.content = this.carFrameInfo.content.replaceAll('<img', '<img class="mx-auto" style="hight: auto"');
-
         }
       })
     }
   }
 };
 </script>
+
+<style lang="scss" src="@/assets/css/main.scss" scoped />
 
 <style scoped>
 .banner {
