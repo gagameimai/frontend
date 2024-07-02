@@ -49,12 +49,13 @@
                 v-model="yearInputValue"
                 class="w-full h-12 p-3 text-black"
               >
-                <option value="" selected>選擇年份</option>
+                <option disabled>選擇年份</option>
                 <option
                   v-for="(year, index) in yearList"
                   :key="index">
                   {{ year }}
                 </option>
+                <option selected value="">所有年份</option>
               </select>
             </div>
             <!---->

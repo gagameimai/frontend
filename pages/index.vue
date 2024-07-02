@@ -43,12 +43,13 @@
             :disabled="yearSelect"
             class="w-full h-12 p-3 text-black border rounded-md bg-white"
           >
-            <option selected value="">選擇年份</option>
+            <option disabled value="undefined">選擇年份</option>
             <option
               v-for="(year, index) in yearList"
               :key="index">
               {{ year }}
             </option>
+            <option selected value="">所有年份</option>
           </select>
         </div>
         <div class="col-span-2">
@@ -193,8 +194,9 @@
           MEIMAI 美邁車用電子有限公司
         </h1>
         <p class="text-xl font-medium leading-loose">
-          美邁精選每一樣車用產品，從品質把關到保固認證，只提供最適合的優質產品；<br />
-          也在台灣逐漸拓展據點，帶來更專業便利的服務。美邁不只是不錯，而是向更美好的行車體驗邁進。
+          歡迎來到美邁車用電子有限公司（MM）！提供各種高品質的車載電子產品。我們的產品包括安卓車載多媒體機、行車記錄器、倒車鏡頭、AVM 360環景輔助系統、盲點偵測及各大車型安卓車框等。<br />
+          我們以提供卓越的售後服務為主打，不斷推陳出新，從品質把關到保固認證，只提供最優質的產品。同時，我們在台灣逐漸拓展據點，致力於帶來更專業便利的服務。美邁，不只是不錯的選擇，更是您最值得信賴的合作夥伴。<br />
+          美邁車用電子，締造驕傲品質
         </p>
       </div>
     </div>
@@ -260,7 +262,7 @@ export default {
       years: [],
       brandInputValue: "",
       modelInputValue: "",
-      yearInputValue: "",
+      yearInputValue: undefined,
       typeSelect: true,
       yearSelect: true,
       filterData: [],
@@ -305,7 +307,7 @@ export default {
     brandChange() {
       // default setting
       this.modelInputValue = "";
-      this.yearInputValue = "";
+      this.yearInputValue = undefined;
       this.typeSelect = true;
       this.yearSelect = true;
       //
@@ -406,7 +408,6 @@ export default {
 
 .solution {
   position: relative;
-  height: 350px;
   background-image: url(~assets/img/Home/bannerBG.png);
   background-repeat: no-repeat;
   background-size: cover;

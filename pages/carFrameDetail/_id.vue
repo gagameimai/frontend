@@ -160,7 +160,7 @@ export default {
     return {
       title: 'MEIMAI ' + this.carFrameInfo.brand_name + this.carFrameInfo.name + ' 車框',
       meta: [
-        { property: 'og:image', content: this.carFrameInfo.img },
+        { hid: 'og:image', name: 'og:image', content: this.carFrameInfo.img },
         { name: 'keywords', content: this.carFrameInfo.brand_name + this. carFrameInfo.car_name + this.carFrameInfo.name}, ]
     }
   },

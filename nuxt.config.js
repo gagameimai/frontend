@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "MEIMAI 美邁車用電子有限公司",
+    title: "MEIMAI MM 美邁車用電子有限公司",
     htmlAttrs: {
       lang: "zh-TW"
     },
@@ -13,7 +13,7 @@ export default {
       { 'http-equiv': 'X-UA-Compatible', content:'ie=edge' },
       { property: 'og:title', content: '美邁車用電子有限公司' },
       { property: 'og:description', content: '美邁車用電子有限公司' },
-      { property: 'og:image', content: 'https://admin.meimai.com.tw/storage/files/1/MultiMedia/多媒體機_ME-88_高效版_v230711.png',},
+      { property: 'og:image', content: 'https://www.meimai.com.tw/_nuxt/img/android.6cdf925.png'},
       { property: 'og:site_name', content: '美邁車用電子有限公司' },
       { property: 'og:locale', content: 'zh_TW' },
     ],
@@ -24,6 +24,10 @@ export default {
       nonce:"2PC0Scii",
       async:"true",
       defer:"true"
+    },
+    {
+      src:"https://www.googletagmanager.com/gtag/js?id=G-1QLZNF29EP%22",
+      async:"true",
     }]
   },
 
